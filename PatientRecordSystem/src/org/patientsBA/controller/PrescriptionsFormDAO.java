@@ -21,7 +21,7 @@ public class PrescriptionsFormDAO {
      public void saveData(PrescriptionsForm ob){
         try{
             Connection con=myConnection.getConnection();
-            String sql="insert into prescription(name,contact,gender,age,disease,prescription,doctor_Fee,pres_Date)values(?,?,?,?,?,?,?,?)";
+            String sql="insert into prescription(name,contact,gender,age,disease,prescription,pres_Date,d_id)values(?,?,?,?,?,?,?,?)";
             PreparedStatement st=con.prepareStatement(sql);
             st.setString(1,ob.getName());
             st.setString(2,ob.getContact());
@@ -29,8 +29,9 @@ public class PrescriptionsFormDAO {
             st.setString(4,ob.getAge());
             st.setString(5,ob.getDisease());
             st.setString(6,ob.getPrescription());
-            st.setString(7,ob.getDoctorfee());
-            st.setString(8,ob.getPrescriptiondate());
+            //st.setString(7,ob.getDoctorfee());
+            st.setString(7,ob.getPrescriptiondate());
+            st.setInt(8,ob.getAdminid());
             int count=st.executeUpdate();
             if(count>0){
                 //System.out.println("Record Saved");
@@ -46,14 +47,14 @@ public class PrescriptionsFormDAO {
         }
     }
          
-        public ArrayList<PrescriptionsForm> fetchData(){
+        public ArrayList<PrescriptionsForm> fetchData(int did){
         ArrayList<PrescriptionsForm> presList=new ArrayList();
                 try{
                     //System.out.println(adminid);
             Connection con=myConnection.getConnection();
-            String sql="select * from prescription";
+            String sql="select * from prescription where d_id =?";
             PreparedStatement st=con.prepareStatement(sql);
-            //st.setInt(1,1);
+            st.setInt(1, did);
             ResultSet rs=st.executeQuery();
             while(rs.next()){
                 PrescriptionsForm ob=new PrescriptionsForm();
@@ -64,7 +65,6 @@ public class PrescriptionsFormDAO {
                 ob.setAge(rs.getString("age"));
                 ob.setDisease(rs.getString("disease"));
                 ob.setPrescription(rs.getString("prescription"));
-                ob.setDoctorfee(rs.getString("doctor_Fee"));
                 ob.setPrescriptiondate(rs.getString("pres_Date"));
                 presList.add(ob);
             }
@@ -81,7 +81,7 @@ public class PrescriptionsFormDAO {
     public void updateRecord(PrescriptionsForm ob){
          try{
             Connection con=myConnection.getConnection();
-            String sql="update prescription set name=?,contact=?,gender=?,age=?,disease=?,prescription=?,doctor_Fee=?,pres_Date=? where id=?";
+            String sql="update prescription set name=?,contact=?,gender=?,age=?,disease=?,prescription=?,pres_Date=? where id=?";
             PreparedStatement st=con.prepareStatement(sql);
             st.setString(1,ob.getName());
             st.setString(2,ob.getContact());
@@ -89,9 +89,9 @@ public class PrescriptionsFormDAO {
             st.setString(4,ob.getAge());
             st.setString(5,ob.getDisease());
             st.setString(6,ob.getPrescription());
-            st.setString(7,ob.getDoctorfee());
-            st.setString(8,ob.getPrescriptiondate());
-            st.setInt(9,ob.getId());
+           // st.setString(7,ob.getDoctorfee());
+            st.setString(7,ob.getPrescriptiondate());
+            st.setInt(8,ob.getId());
             st.execute();
             con.close();
         }

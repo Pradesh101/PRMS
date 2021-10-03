@@ -40,7 +40,6 @@ public class Home extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("B.A Pharma Patient Record Management System");
-        setMaximumSize(new java.awt.Dimension(1247, 572));
 
         jPanel1.setLayout(null);
 
@@ -56,8 +55,9 @@ public class Home extends javax.swing.JFrame {
         jPanel1.add(jLabel4);
         jLabel4.setBounds(860, 180, 130, 140);
 
-        jButton_Admin.setFont(new java.awt.Font("Times New Roman", 1, 18)); // NOI18N
+        jButton_Admin.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jButton_Admin.setText("Admin");
+        jButton_Admin.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
         jButton_Admin.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton_AdminActionPerformed(evt);
@@ -66,8 +66,9 @@ public class Home extends javax.swing.JFrame {
         jPanel1.add(jButton_Admin);
         jButton_Admin.setBounds(260, 350, 130, 40);
 
-        jButton_Doctor.setFont(new java.awt.Font("Times New Roman", 1, 18)); // NOI18N
+        jButton_Doctor.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jButton_Doctor.setText("Doctor");
+        jButton_Doctor.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
         jButton_Doctor.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton_DoctorActionPerformed(evt);
@@ -76,8 +77,9 @@ public class Home extends javax.swing.JFrame {
         jPanel1.add(jButton_Doctor);
         jButton_Doctor.setBounds(570, 351, 140, 40);
 
-        jButton_Receptionist.setFont(new java.awt.Font("Times New Roman", 1, 18)); // NOI18N
+        jButton_Receptionist.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jButton_Receptionist.setText("Receptionist");
+        jButton_Receptionist.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
         jButton_Receptionist.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton_ReceptionistActionPerformed(evt);

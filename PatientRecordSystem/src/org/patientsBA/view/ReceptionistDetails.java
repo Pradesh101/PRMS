@@ -52,61 +52,61 @@ public class ReceptionistDetails extends javax.swing.JInternalFrame {
         setMaximizable(true);
         setResizable(true);
 
-        jLabel5.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        jLabel5.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jLabel5.setText("Gender:");
 
-        jLabel_dName.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        jLabel_dName.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jLabel_dName.setText("Ram");
 
-        jLabel_Address.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        jLabel_Address.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jLabel_Address.setText("Inacho-07");
 
-        jLabel6.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        jLabel6.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jLabel6.setText("Marital:");
 
-        jLabel_Gender.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        jLabel_Gender.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jLabel_Gender.setText("Female");
 
-        jLabel_Marital.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        jLabel_Marital.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jLabel_Marital.setText("Married");
 
-        jLabel10.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        jLabel10.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jLabel10.setText("Age:");
 
-        jLabel15.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        jLabel15.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jLabel15.setText("Joining Date:");
 
-        jLabel11.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        jLabel11.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jLabel11.setText("Contact:");
 
-        jLabel_Jdate.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        jLabel_Jdate.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jLabel_Jdate.setText("2077-01-02");
 
-        jLabel_Age.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        jLabel_Age.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jLabel_Age.setText("11");
 
-        jLabel2.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        jLabel2.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jLabel2.setText("Receptionist Id:");
 
-        jLabel_Contact.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        jLabel_Contact.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jLabel_Contact.setText("9860465034");
 
-        jLabel19.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        jLabel19.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jLabel19.setText("Username:");
 
-        jLabel3.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        jLabel3.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jLabel3.setText("Receptionist Name:");
 
-        jLabel_Username.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        jLabel_Username.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jLabel_Username.setText("ram123");
 
-        jLabel4.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        jLabel4.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jLabel4.setText("Address:");
 
-        jLabel_Id.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        jLabel_Id.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jLabel_Id.setText("1");
 
-        jLabel1.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
+        jLabel1.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
         jLabel1.setText("Receptionist Details");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -137,12 +137,12 @@ public class ReceptionistDetails extends javax.swing.JInternalFrame {
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jLabel_Id)
                                     .addComponent(jLabel_Address, javax.swing.GroupLayout.PREFERRED_SIZE, 174, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jLabel_Gender, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(jLabel_Age, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(jLabel_Contact)
                                     .addComponent(jLabel_Marital)
                                     .addComponent(jLabel_Jdate)
-                                    .addComponent(jLabel_Username, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(jLabel_Username, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel_Gender, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addGap(0, 0, Short.MAX_VALUE)))))
                 .addGap(253, 253, 253))
         );
@@ -187,7 +187,7 @@ public class ReceptionistDetails extends javax.swing.JInternalFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel19)
                     .addComponent(jLabel_Username))
-                .addContainerGap(87, Short.MAX_VALUE))
+                .addContainerGap(91, Short.MAX_VALUE))
         );
 
         pack();

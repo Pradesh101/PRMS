@@ -17,7 +17,7 @@ public class PrescriptionsForm {
     private String age;
     private String disease;
     private String prescription;
-    private String doctorfee;
+    private int appid;
     private String prescriptiondate;
     private int adminid;
     
@@ -49,8 +49,8 @@ public class PrescriptionsForm {
         this.prescription = pres;
     }
     
-    public void setDoctorfee(String dfee) {
-        this.doctorfee = dfee;
+    public void setAppid(int appid) {
+        this.appid = appid;
     }
 
     public void setPrescriptiondate(String pdate) {
@@ -90,8 +90,8 @@ public class PrescriptionsForm {
         return prescription;
     }
     
-    public String getDoctorfee() {
-        return doctorfee;
+    public int getAppid() {
+        return appid;
     }
     
     public String getPrescriptiondate() {

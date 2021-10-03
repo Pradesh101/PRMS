@@ -20,8 +20,15 @@ import javax.swing.table.TableRowSorter;
 import org.patientsBA.controller.ReceptionistFormDAO;
 import org.patientsBA.model.ReceptionistForm;
 import RKinfotech.MysqlMd5;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.regex.Pattern;
+import org.patientsBA.util.myConnection;
 
 
 /**
@@ -40,6 +47,8 @@ public class ReceptionistFormFrame extends javax.swing.JInternalFrame {
         initComponents();
         model = new DefaultTableModel(null, new String[]{"Id", "Name", "Address", "Gender", "Age", "Contact", "Maital", "Joiningdate", "Username", "Password"});
         jTable_Recep.setModel(model);
+        jTextField_Id.setVisible(false);
+        jLabel_Id.setVisible(false);
     }
 
     public void loadData() {
@@ -94,7 +103,7 @@ public class ReceptionistFormFrame extends javax.swing.JInternalFrame {
 
         genderbuttonGroup = new javax.swing.ButtonGroup();
         maritalbuttonGroup = new javax.swing.ButtonGroup();
-        jLabel3 = new javax.swing.JLabel();
+        jLabel_Id = new javax.swing.JLabel();
         jTextField_Id = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
         jTextField_Name = new javax.swing.JTextField();
@@ -124,6 +133,7 @@ public class ReceptionistFormFrame extends javax.swing.JInternalFrame {
         jPasswordField = new javax.swing.JPasswordField();
         jTextField_Search = new javax.swing.JTextField();
         jButton_Clear = new javax.swing.JButton();
+        jLabel11 = new javax.swing.JLabel();
 
         setClosable(true);
         setIconifiable(true);
@@ -132,7 +142,8 @@ public class ReceptionistFormFrame extends javax.swing.JInternalFrame {
         setMinimumSize(new java.awt.Dimension(1232, 542));
         setPreferredSize(new java.awt.Dimension(1235, 607));
 
-        jLabel3.setText("Id");
+        jLabel_Id.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLabel_Id.setText("Id");
 
         jTextField_Id.setEditable(false);
         jTextField_Id.addActionListener(new java.awt.event.ActionListener() {
@@ -141,6 +152,7 @@ public class ReceptionistFormFrame extends javax.swing.JInternalFrame {
             }
         });
 
+        jLabel2.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel2.setText("Name");
 
         jTextField_Name.addActionListener(new java.awt.event.ActionListener() {
@@ -148,7 +160,13 @@ public class ReceptionistFormFrame extends javax.swing.JInternalFrame {
                 jTextField_NameActionPerformed(evt);
             }
         });
+        jTextField_Name.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                jTextField_NameKeyTyped(evt);
+            }
+        });
 
+        jLabel7.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel7.setText("Address");
 
         jTextField_Address.addActionListener(new java.awt.event.ActionListener() {
@@ -156,10 +174,17 @@ public class ReceptionistFormFrame extends javax.swing.JInternalFrame {
                 jTextField_AddressActionPerformed(evt);
             }
         });
+        jTextField_Address.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                jTextField_AddressKeyTyped(evt);
+            }
+        });
 
+        jLabel1.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel1.setText("Gender");
 
         genderbuttonGroup.add(jRadioButton_Male);
+        jRadioButton_Male.setFont(new java.awt.Font("Tahoma", 1, 13)); // NOI18N
         jRadioButton_Male.setText("Male");
         jRadioButton_Male.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -168,6 +193,7 @@ public class ReceptionistFormFrame extends javax.swing.JInternalFrame {
         });
 
         genderbuttonGroup.add(jRadioButton_Female);
+        jRadioButton_Female.setFont(new java.awt.Font("Tahoma", 1, 13)); // NOI18N
         jRadioButton_Female.setText("Female");
         jRadioButton_Female.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -175,6 +201,7 @@ public class ReceptionistFormFrame extends javax.swing.JInternalFrame {
             }
         });
 
+        jLabel8.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel8.setText("Age");
 
         jTextField_Age.addActionListener(new java.awt.event.ActionListener() {
@@ -188,6 +215,7 @@ public class ReceptionistFormFrame extends javax.swing.JInternalFrame {
             }
         });
 
+        jLabel5.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel5.setText("Contact");
 
         jTextField_Contact.addActionListener(new java.awt.event.ActionListener() {
@@ -201,30 +229,37 @@ public class ReceptionistFormFrame extends javax.swing.JInternalFrame {
             }
         });
 
+        jButton_Save.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jButton_Save.setIcon(new javax.swing.ImageIcon("C:\\Users\\acer\\OneDrive\\Documents\\NetBeansProjects\\Java Project Picture\\adduser.png")); // NOI18N
         jButton_Save.setText("Save");
+        jButton_Save.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
         jButton_Save.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton_SaveActionPerformed(evt);
             }
         });
 
+        jButton_Update.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jButton_Update.setIcon(new javax.swing.ImageIcon("C:\\Users\\acer\\OneDrive\\Documents\\NetBeansProjects\\Java Project Picture\\UPDATESMALL.png")); // NOI18N
         jButton_Update.setText("Update");
+        jButton_Update.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
         jButton_Update.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton_UpdateActionPerformed(evt);
             }
         });
 
+        jButton_Delete.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jButton_Delete.setIcon(new javax.swing.ImageIcon("C:\\Users\\acer\\OneDrive\\Documents\\NetBeansProjects\\Java Project Picture\\DELETESMALL.png")); // NOI18N
         jButton_Delete.setText("Delete");
+        jButton_Delete.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
         jButton_Delete.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton_DeleteActionPerformed(evt);
             }
         });
 
+        jLabel4.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel4.setText("Username");
 
         jTextField_Username.addActionListener(new java.awt.event.ActionListener() {
@@ -233,10 +268,13 @@ public class ReceptionistFormFrame extends javax.swing.JInternalFrame {
             }
         });
 
+        jLabel6.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel6.setText("Password");
 
+        jLabel9.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel9.setText("Joining Date");
 
+        jLabel10.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel10.setText("Marital Status");
 
         jTable_Recep.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
@@ -257,7 +295,9 @@ public class ReceptionistFormFrame extends javax.swing.JInternalFrame {
         });
         jScrollPane2.setViewportView(jTable_Recep);
 
+        jButton_Show.setFont(new java.awt.Font("Tahoma", 1, 13)); // NOI18N
         jButton_Show.setText("Show");
+        jButton_Show.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
         jButton_Show.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton_ShowActionPerformed(evt);
@@ -265,6 +305,7 @@ public class ReceptionistFormFrame extends javax.swing.JInternalFrame {
         });
 
         maritalbuttonGroup.add(jRadioButton_Married);
+        jRadioButton_Married.setFont(new java.awt.Font("Tahoma", 1, 13)); // NOI18N
         jRadioButton_Married.setText("Married");
         jRadioButton_Married.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -273,6 +314,7 @@ public class ReceptionistFormFrame extends javax.swing.JInternalFrame {
         });
 
         maritalbuttonGroup.add(jRadioButton_Unmarried);
+        jRadioButton_Unmarried.setFont(new java.awt.Font("Tahoma", 1, 13)); // NOI18N
         jRadioButton_Unmarried.setText("Unmarried");
         jRadioButton_Unmarried.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -288,6 +330,7 @@ public class ReceptionistFormFrame extends javax.swing.JInternalFrame {
             }
         });
 
+        jTextField_Search.setBorder(null);
         jTextField_Search.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jTextField_SearchActionPerformed(evt);
@@ -299,12 +342,17 @@ public class ReceptionistFormFrame extends javax.swing.JInternalFrame {
             }
         });
 
+        jButton_Clear.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jButton_Clear.setText("Clear");
+        jButton_Clear.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
         jButton_Clear.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton_ClearActionPerformed(evt);
             }
         });
+
+        jLabel11.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLabel11.setText("Search");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -313,7 +361,6 @@ public class ReceptionistFormFrame extends javax.swing.JInternalFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGap(22, 22, 22)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel7)
@@ -322,7 +369,7 @@ public class ReceptionistFormFrame extends javax.swing.JInternalFrame {
                             .addComponent(jLabel5)
                             .addComponent(jLabel10)
                             .addComponent(jLabel9)
-                            .addComponent(jLabel3)
+                            .addComponent(jLabel_Id)
                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                 .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)))
@@ -349,24 +396,25 @@ public class ReceptionistFormFrame extends javax.swing.JInternalFrame {
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(layout.createSequentialGroup()
                                         .addGap(88, 88, 88)
-                                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 767, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 752, javax.swing.GroupLayout.PREFERRED_SIZE))
                                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                                .addComponent(jButton_Show)
-                                                .addGap(333, 333, 333))
-                                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                                .addComponent(jTextField_Search, javax.swing.GroupLayout.PREFERRED_SIZE, 187, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                .addGap(280, 280, 280))))))
+                                        .addComponent(jLabel11)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(jTextField_Search, javax.swing.GroupLayout.PREFERRED_SIZE, 187, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(279, 279, 279))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addGap(428, 428, 428)
+                                        .addComponent(jButton_Show, javax.swing.GroupLayout.PREFERRED_SIZE, 78, javax.swing.GroupLayout.PREFERRED_SIZE))))
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(jButton_Save)
-                                .addGap(33, 33, 33)
-                                .addComponent(jButton_Update)
-                                .addGap(32, 32, 32)
-                                .addComponent(jButton_Delete)
-                                .addGap(31, 31, 31)
-                                .addComponent(jButton_Clear, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                                .addComponent(jButton_Save, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(40, 40, 40)
+                                .addComponent(jButton_Update, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(43, 43, 43)
+                                .addComponent(jButton_Delete, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(35, 35, 35)
+                                .addComponent(jButton_Clear, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                    .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -376,7 +424,7 @@ public class ReceptionistFormFrame extends javax.swing.JInternalFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel3)
+                            .addComponent(jLabel_Id)
                             .addComponent(jTextField_Id, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -393,7 +441,9 @@ public class ReceptionistFormFrame extends javax.swing.JInternalFrame {
                         .addGap(18, 18, 18)
                         .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jTextField_Search, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jTextField_Search, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel11))
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addGroup(layout.createSequentialGroup()
@@ -412,11 +462,15 @@ public class ReceptionistFormFrame extends javax.swing.JInternalFrame {
                                     .addComponent(jRadioButton_Unmarried)))
                             .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))))
                 .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jButton_Show, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jDateChooser, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel9, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jDateChooser, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jLabel9, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(18, 18, 18))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(jButton_Show, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(5, 5, 5)))
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jTextField_Username, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -429,8 +483,8 @@ public class ReceptionistFormFrame extends javax.swing.JInternalFrame {
                     .addComponent(jButton_Save)
                     .addComponent(jButton_Update)
                     .addComponent(jButton_Delete)
-                    .addComponent(jButton_Clear, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(89, Short.MAX_VALUE))
+                    .addComponent(jButton_Clear, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(95, Short.MAX_VALUE))
         );
 
         pack();
@@ -484,6 +538,9 @@ public class ReceptionistFormFrame extends javax.swing.JInternalFrame {
              marital="Unmarried";
         }
         String jdate = ((JTextField) jDateChooser.getDateEditor().getUiComponent()).getText().trim();
+        Date currentDate=new Date();
+        SimpleDateFormat dateFormat=new SimpleDateFormat("yyyy-MM-dd");
+        String date = dateFormat.format(currentDate);
         String username = jTextField_Username.getText().trim();
         String pswd = String.valueOf(jPasswordField.getPassword()).trim();
         String password = "";
@@ -493,11 +550,64 @@ public class ReceptionistFormFrame extends javax.swing.JInternalFrame {
             Logger.getLogger(ReceptionistFormFrame.class.getName()).log(Level.SEVERE, null, ex);
         }
         
+        try{
+            boolean flag = false;
+            Set <String> pNumber = new HashSet <String>();
+            Connection con=myConnection.getConnection();
+            PreparedStatement ps = null;
+            ResultSet rs = null;
+            String queryTwo = "select contact from receptionist";
+            ps = con.prepareStatement(queryTwo);
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                pNumber.add(rs.getString("contact"));
+                //System.out.println(rs.getString(1));
+            }
+            //System.out.println(pNumber.size());
+            for (int i = 0; i < pNumber.size(); i++) {
+                if (pNumber.contains(contact)) {
+                    JOptionPane.showMessageDialog(null,"Contact is already registered");
+                    //System.out.println("Already number registered");
+                    //pNumber.remove(phoneNumber);
+                    //System.out.println(pNumber);
+                    flag = true;
+                    return;
+                }
+            }
+              if (pNumber.equals(contact)) {
+                JOptionPane.showMessageDialog(null,"Contact is already registered");
+                //System.out.println("Already number registered");
+                return;
+            }
+        }
+        catch(Exception e){
+            JOptionPane.showMessageDialog(null,"Contact is already registered");
+            try {
+                throw e;
+            } catch (Exception ex) {
+                Logger.getLogger(ReceptionistFormFrame.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        
         if(name.equals("") || address.equals("") || gender.equals("") || age.equals("") || contact.equals("") || marital.equals("") || jdate.equals("")
                 || username.equals("") || password.equals("")){
       
         JOptionPane.showMessageDialog(null,"One or more fields are empty");
         }
+        
+        else if(!Pattern.matches("[9]{1}+[8]{1}+[0-9]+$",contact)){
+            JOptionPane.showMessageDialog(null,"Number must start with 98");
+        }
+        
+        else if((jdate.compareTo(date)<0)){
+            
+            JOptionPane.showMessageDialog(null,"Date is old");
+        }    
+        
+        else if((jdate.compareTo(date)>1)){
+            JOptionPane.showMessageDialog(null,"Date is new");
+        }       
+        
         else{
         //set these value into model class "ReceptionistFormFrame" object
         ReceptionistForm ob = new ReceptionistForm();
@@ -704,6 +814,22 @@ public class ReceptionistFormFrame extends javax.swing.JInternalFrame {
         clear();
     }//GEN-LAST:event_jButton_ClearActionPerformed
 
+    private void jTextField_NameKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField_NameKeyTyped
+        // TODO add your handling code here:
+        char c=evt.getKeyChar();
+        if(!(Character.isAlphabetic(c)) || (c==KeyEvent.VK_PERIOD) || (c==KeyEvent.VK_BACK_SPACE)){
+            evt.consume();
+        }
+    }//GEN-LAST:event_jTextField_NameKeyTyped
+
+    private void jTextField_AddressKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField_AddressKeyTyped
+        // TODO add your handling code here:
+        char c=evt.getKeyChar();
+        if(!(Character.isAlphabetic(c) || (c==KeyEvent.VK_PERIOD) || (c==KeyEvent.VK_BACK_SPACE) || Character.isDigit(c))){
+            evt.consume();
+        }
+    }//GEN-LAST:event_jTextField_AddressKeyTyped
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.ButtonGroup genderbuttonGroup;
@@ -715,14 +841,15 @@ public class ReceptionistFormFrame extends javax.swing.JInternalFrame {
     private com.toedter.calendar.JDateChooser jDateChooser;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
+    private javax.swing.JLabel jLabel_Id;
     private javax.swing.JPasswordField jPasswordField;
     private javax.swing.JRadioButton jRadioButton_Female;
     private javax.swing.JRadioButton jRadioButton_Male;

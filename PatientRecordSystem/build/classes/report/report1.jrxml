@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="null" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="63fe697b-bf62-4f3a-94eb-6e29a7fe06d9">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="id" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[SELECT
+     prescription.`id` AS prescription_id,
+     prescription.`name` AS prescription_name,
+     prescription.`contact` AS prescription_contact,
+     prescription.`gender` AS prescription_gender,
+     prescription.`age` AS prescription_age,
+     prescription.`disease` AS prescription_disease,
+     prescription.`prescription` AS prescription_prescription,
+     prescription.`pres_Date` AS prescription_pres_Date
+FROM
+     `prescription`  where prescription.`id` = $P{id}]]>
+	</queryString>
+	<field name="prescription_id" class="java.lang.Long"/>
+	<field name="prescription_name" class="java.lang.String"/>
+	<field name="prescription_contact" class="java.math.BigInteger"/>
+	<field name="prescription_gender" class="java.lang.String"/>
+	<field name="prescription_age" class="java.lang.Integer"/>
+	<field name="prescription_disease" class="java.lang.String"/>
+	<field name="prescription_prescription" class="java.lang.String"/>
+	<field name="prescription_pres_Date" class="java.sql.Date"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="79" splitType="Stretch">
+			<staticText>
+				<reportElement x="179" y="17" width="199" height="28" uuid="cf010637-3c7c-48f7-a1da-8485e260701c"/>
+				<textElement>
+					<font fontName="Times New Roman" size="24" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Prescription Detail]]></text>
+			</staticText>
+		</band>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band splitType="Stretch"/>
+	</columnHeader>
+	<detail>
+		<band height="425" splitType="Stretch">
+			<textField>
+				<reportElement x="210" y="10" width="119" height="20" uuid="5140cba0-6fa3-4959-b5e7-55f9816b0d02"/>
+				<textFieldExpression><![CDATA[$F{prescription_name}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="210" y="60" width="124" height="20" uuid="9ddbb606-ef76-43da-8656-8f21127b905f"/>
+				<textFieldExpression><![CDATA[$F{prescription_contact}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="210" y="110" width="119" height="20" uuid="944cb7fe-6626-419d-8786-00558cbb16be"/>
+				<textFieldExpression><![CDATA[$F{prescription_gender}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="210" y="160" width="100" height="20" uuid="2ae612fa-c98c-4ce0-8346-67f5fec6f4f4"/>
+				<textFieldExpression><![CDATA[$F{prescription_age}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="210" y="211" width="119" height="20" uuid="16f03ead-3b1a-4c44-b116-867f4037b85b"/>
+				<textFieldExpression><![CDATA[$F{prescription_disease}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="210" y="262" width="136" height="20" uuid="88637210-6927-40d0-bdfe-f5ac72518166"/>
+				<textFieldExpression><![CDATA[$F{prescription_prescription}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="210" y="323" width="136" height="20" uuid="5d5f7ccc-62c9-4146-8f87-fdf1cc5b2452"/>
+				<textFieldExpression><![CDATA[$F{prescription_pres_Date}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="47" y="10" width="100" height="20" uuid="339db9ad-b53b-4f63-876f-c44182a2cbd5"/>
+				<textElement>
+					<font fontName="Times New Roman" size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Name:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="47" y="60" width="100" height="20" uuid="83fd7f44-6ff4-4458-b5b2-f3b05d928530"/>
+				<textElement>
+					<font fontName="Times New Roman" size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Contact:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="47" y="110" width="100" height="20" uuid="83ca498a-17b0-4201-bbff-373ae5ead260"/>
+				<textElement>
+					<font fontName="Times New Roman" size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Gender:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="47" y="160" width="100" height="20" uuid="921f58f4-4eff-4bb2-98fe-4d39c305536a"/>
+				<textElement>
+					<font fontName="Times New Roman" size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Age:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="47" y="211" width="100" height="20" uuid="d683b9ec-b97e-442b-ac57-7b622a76bd10"/>
+				<textElement>
+					<font fontName="Times New Roman" size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Disease:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="47" y="262" width="100" height="20" uuid="37ba1beb-ed0e-43a5-a1fb-79fecae6458c"/>
+				<textElement>
+					<font fontName="Times New Roman" size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Prescriptions:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="47" y="323" width="119" height="20" uuid="4e725787-c9a1-43c3-8a30-d50934f22161"/>
+				<textElement>
+					<font fontName="Times New Roman" size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Prescription Date:]]></text>
+			</staticText>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="45" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="54" splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band height="42" splitType="Stretch"/>
+	</summary>
+</jasperReport>

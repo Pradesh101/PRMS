@@ -59,6 +59,7 @@ public class AdminLoginForm extends javax.swing.JFrame {
         jLabel_User.setBounds(510, 240, 50, 50);
 
         jTextFieldUser.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jTextFieldUser.setBorder(javax.swing.BorderFactory.createEtchedBorder());
         jTextFieldUser.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jTextFieldUserActionPerformed(evt);
@@ -68,6 +69,7 @@ public class AdminLoginForm extends javax.swing.JFrame {
         jTextFieldUser.setBounds(580, 260, 230, 30);
 
         jPasswordFieldPsw.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jPasswordFieldPsw.setBorder(javax.swing.BorderFactory.createEtchedBorder());
         jPasswordFieldPsw.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jPasswordFieldPswActionPerformed(evt);
@@ -79,18 +81,20 @@ public class AdminLoginForm extends javax.swing.JFrame {
         jCheckBoxShowPass.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jCheckBoxShowPass.setText("Show");
         jCheckBoxShowPass.setAlignmentX(0.5F);
+        jCheckBoxShowPass.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         jCheckBoxShowPass.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jCheckBoxShowPassActionPerformed(evt);
             }
         });
         jPanel2.add(jCheckBoxShowPass);
-        jCheckBoxShowPass.setBounds(830, 330, 67, 30);
+        jCheckBoxShowPass.setBounds(830, 330, 80, 30);
 
         jButtonLogin.setBackground(new java.awt.Color(0, 153, 0));
-        jButtonLogin.setFont(new java.awt.Font("Times New Roman", 1, 12)); // NOI18N
-        jButtonLogin.setForeground(new java.awt.Color(255, 255, 255));
+        jButtonLogin.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
+        jButtonLogin.setForeground(new java.awt.Color(240, 240, 240));
         jButtonLogin.setText("Login");
+        jButtonLogin.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
         jButtonLogin.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButtonLoginActionPerformed(evt);
@@ -100,9 +104,10 @@ public class AdminLoginForm extends javax.swing.JFrame {
         jButtonLogin.setBounds(580, 380, 100, 30);
 
         jButtonCancel.setBackground(new java.awt.Color(255, 0, 0));
-        jButtonCancel.setFont(new java.awt.Font("Times New Roman", 1, 12)); // NOI18N
+        jButtonCancel.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
         jButtonCancel.setForeground(new java.awt.Color(255, 255, 255));
         jButtonCancel.setText("Cancel");
+        jButtonCancel.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
         jButtonCancel.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButtonCancelActionPerformed(evt);

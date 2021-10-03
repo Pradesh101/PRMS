@@ -11,12 +11,16 @@ import java.sql.ResultSet;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.regex.Pattern;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
+import javax.swing.RowFilter;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableRowSorter;
 import org.patientsBA.controller.PrescriptionsFormDAO;
 import org.patientsBA.model.PrescriptionsForm;
 import static org.patientsBA.view.Prescriptions.name;
+import report.Report;
 
 /**
  *
@@ -27,6 +31,8 @@ public class Prescriptions extends javax.swing.JInternalFrame {
     PreparedStatement ps = null;
     ResultSet rs = null;
     public static int id;
+    public static int appid;
+    public static int dappid;
     Appointment appmf;
     public static String name;
     public static long contact;
@@ -42,7 +48,7 @@ public class Prescriptions extends javax.swing.JInternalFrame {
      */
     public Prescriptions() {
         initComponents();
-        model = new DefaultTableModel(null, new String[]{"Id","Patient Name", "Contact","Gender","Age","Disease","Prescription","Doctor Fee","Prescription Date"});
+        model = new DefaultTableModel(null, new String[]{"Id","Patient Name", "Contact","Gender","Age","Disease","Prescription","Prescription Date"});
         jTable_DoctorPres.setModel(model);
         jTextField_Name.setText(name);
         jTextField_Age.setText(age1);
@@ -57,10 +63,10 @@ public class Prescriptions extends javax.swing.JInternalFrame {
     public void loadData(){
         clearModel();
         PrescriptionsFormDAO  pfDAO=new PrescriptionsFormDAO ();
-        ArrayList<PrescriptionsForm> presList = pfDAO.fetchData();
+        ArrayList<PrescriptionsForm> presList = pfDAO.fetchData(dappid);
         for(int i=0;i<presList.size();i++){
        model.addRow(new Object[]{presList.get(i).getId(),presList.get(i).getName(),presList.get(i).getContact(),presList.get(i).getGender(),presList.get(i).getAge(),
-       presList.get(i).getDisease(),presList.get(i).getPrescription(),presList.get(i).getDoctorfee(),presList.get(i).getPrescriptiondate()});
+       presList.get(i).getDisease(),presList.get(i).getPrescription(),presList.get(i).getPrescriptiondate()});
     }
     }
 
@@ -80,7 +86,7 @@ public class Prescriptions extends javax.swing.JInternalFrame {
         jDateChooser.setDate(null);
         jTextField_Disease.setText("");
         jTextArea_Prescription.setText("");
-        jTextField_Dfee.setText(""); 
+        //jTextField_Dfee.setText(""); 
         jDateChooser.setDate(null);
    }
     /**
@@ -109,8 +115,6 @@ public class Prescriptions extends javax.swing.JInternalFrame {
         jScrollPane2 = new javax.swing.JScrollPane();
         jTable_DoctorPres = new javax.swing.JTable();
         jButton_Show = new javax.swing.JButton();
-        jLabel1 = new javax.swing.JLabel();
-        jTextField_Dfee = new javax.swing.JTextField();
         jLabel8 = new javax.swing.JLabel();
         jRadioButton_Male = new javax.swing.JRadioButton();
         jRadioButton_Female = new javax.swing.JRadioButton();
@@ -122,12 +126,16 @@ public class Prescriptions extends javax.swing.JInternalFrame {
         jButton_Update = new javax.swing.JButton();
         jButton_Delete = new javax.swing.JButton();
         jButton_Clear = new javax.swing.JButton();
+        jTextField_Search = new javax.swing.JTextField();
+        jLabel11 = new javax.swing.JLabel();
+        jButton_Prescription = new javax.swing.JButton();
 
         jTextField1.setText("jTextField1");
 
         jRadioButton2.setText("jRadioButton2");
 
         setClosable(true);
+        setTitle("Prescription Form");
 
         jTextField_Id.setEditable(false);
         jTextField_Id.addActionListener(new java.awt.event.ActionListener() {
@@ -141,21 +149,26 @@ public class Prescriptions extends javax.swing.JInternalFrame {
                 jTextField_NameActionPerformed(evt);
             }
         });
+        jTextField_Name.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                jTextField_NameKeyTyped(evt);
+            }
+        });
 
-        jLabel2.setFont(new java.awt.Font("Tahoma", 1, 13)); // NOI18N
+        jLabel2.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel2.setText("Name");
 
-        jLabel3.setFont(new java.awt.Font("Tahoma", 1, 13)); // NOI18N
+        jLabel3.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel3.setText("Id");
 
-        jLabel4.setFont(new java.awt.Font("Tahoma", 1, 13)); // NOI18N
+        jLabel4.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel4.setText("Prescription");
 
         jTextArea_Prescription.setColumns(20);
         jTextArea_Prescription.setRows(5);
         jScrollPane1.setViewportView(jTextArea_Prescription);
 
-        jLabel5.setFont(new java.awt.Font("Tahoma", 1, 13)); // NOI18N
+        jLabel5.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel5.setText("Contact");
 
         jTextField_Disease.addActionListener(new java.awt.event.ActionListener() {
@@ -163,8 +176,13 @@ public class Prescriptions extends javax.swing.JInternalFrame {
                 jTextField_DiseaseActionPerformed(evt);
             }
         });
+        jTextField_Disease.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                jTextField_DiseaseKeyTyped(evt);
+            }
+        });
 
-        jLabel6.setFont(new java.awt.Font("Tahoma", 1, 13)); // NOI18N
+        jLabel6.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel6.setText("Disease");
 
         jTextField_Contact.addActionListener(new java.awt.event.ActionListener() {
@@ -178,6 +196,7 @@ public class Prescriptions extends javax.swing.JInternalFrame {
             }
         });
 
+        jTable_DoctorPres.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         jTable_DoctorPres.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
@@ -193,26 +212,27 @@ public class Prescriptions extends javax.swing.JInternalFrame {
         });
         jScrollPane2.setViewportView(jTable_DoctorPres);
 
+        jButton_Show.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jButton_Show.setText("Show");
+        jButton_Show.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
         jButton_Show.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton_ShowActionPerformed(evt);
             }
         });
 
-        jLabel1.setFont(new java.awt.Font("Tahoma", 1, 13)); // NOI18N
-        jLabel1.setText("Doctor Fees");
-
-        jLabel8.setFont(new java.awt.Font("Tahoma", 1, 13)); // NOI18N
+        jLabel8.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel8.setText("Gender");
 
         buttonGroup1.add(jRadioButton_Male);
+        jRadioButton_Male.setFont(new java.awt.Font("Tahoma", 1, 13)); // NOI18N
         jRadioButton_Male.setText("Male");
 
         buttonGroup1.add(jRadioButton_Female);
+        jRadioButton_Female.setFont(new java.awt.Font("Tahoma", 1, 13)); // NOI18N
         jRadioButton_Female.setText("Female");
 
-        jLabel9.setFont(new java.awt.Font("Tahoma", 1, 13)); // NOI18N
+        jLabel9.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel9.setText("Age");
 
         jTextField_Age.addKeyListener(new java.awt.event.KeyAdapter() {
@@ -221,39 +241,70 @@ public class Prescriptions extends javax.swing.JInternalFrame {
             }
         });
 
-        jLabel10.setFont(new java.awt.Font("Tahoma", 1, 13)); // NOI18N
+        jLabel10.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel10.setText("Prescription Date");
 
         jDateChooser.setDateFormatString("yyyy-MM-d");
 
+        jButton_Save.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jButton_Save.setIcon(new javax.swing.ImageIcon("C:\\Users\\acer\\OneDrive\\Documents\\NetBeansProjects\\Java Project Picture\\adduser.png")); // NOI18N
         jButton_Save.setText("Save");
+        jButton_Save.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
         jButton_Save.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton_SaveActionPerformed(evt);
             }
         });
 
+        jButton_Update.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jButton_Update.setIcon(new javax.swing.ImageIcon("C:\\Users\\acer\\OneDrive\\Documents\\NetBeansProjects\\Java Project Picture\\UPDATESMALL.png")); // NOI18N
         jButton_Update.setText("Update");
+        jButton_Update.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
         jButton_Update.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton_UpdateActionPerformed(evt);
             }
         });
 
+        jButton_Delete.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jButton_Delete.setIcon(new javax.swing.ImageIcon("C:\\Users\\acer\\OneDrive\\Documents\\NetBeansProjects\\Java Project Picture\\DELETESMALL.png")); // NOI18N
         jButton_Delete.setText("Delete");
+        jButton_Delete.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
         jButton_Delete.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton_DeleteActionPerformed(evt);
             }
         });
 
+        jButton_Clear.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jButton_Clear.setText("Clear");
+        jButton_Clear.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
         jButton_Clear.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton_ClearActionPerformed(evt);
+            }
+        });
+
+        jTextField_Search.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextField_SearchActionPerformed(evt);
+            }
+        });
+        jTextField_Search.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                jTextField_SearchKeyReleased(evt);
+            }
+        });
+
+        jLabel11.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLabel11.setText("Search");
+
+        jButton_Prescription.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jButton_Prescription.setText("Prescription Report");
+        jButton_Prescription.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        jButton_Prescription.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton_PrescriptionActionPerformed(evt);
             }
         });
 
@@ -261,62 +312,73 @@ public class Prescriptions extends javax.swing.JInternalFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(28, 28, 28)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel5)
-                    .addComponent(jLabel2)
-                    .addComponent(jLabel3)
-                    .addComponent(jLabel8)
-                    .addComponent(jLabel9)
-                    .addComponent(jLabel6)
-                    .addComponent(jLabel4)
-                    .addComponent(jLabel1)
-                    .addComponent(jLabel10))
-                .addGap(23, 23, 23)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jRadioButton_Male)
                         .addGap(28, 28, 28)
-                        .addComponent(jRadioButton_Female))
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                        .addComponent(jTextField_Name, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jTextField_Id, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jTextField_Contact, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jTextField_Age, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTextField_Disease, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jScrollPane1)
-                    .addComponent(jTextField_Dfee, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jDateChooser, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 140, Short.MAX_VALUE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel5)
+                            .addComponent(jLabel2)
+                            .addComponent(jLabel3)
+                            .addComponent(jLabel8)
+                            .addComponent(jLabel9)
+                            .addComponent(jLabel6)
+                            .addComponent(jLabel4)
+                            .addComponent(jLabel10))
+                        .addGap(23, 23, 23)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addGroup(layout.createSequentialGroup()
+                                    .addComponent(jRadioButton_Male)
+                                    .addGap(28, 28, 28)
+                                    .addComponent(jRadioButton_Female))
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(jTextField_Name, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jTextField_Id, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jTextField_Contact, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(jTextField_Disease, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jScrollPane1)
+                                .addComponent(jDateChooser, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addComponent(jTextField_Age, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(143, 143, 143)
+                        .addComponent(jButton_Save, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(40, 40, 40)
+                        .addComponent(jButton_Update, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 593, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(64, 64, 64))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(jButton_Show)
-                        .addGap(336, 336, 336))))
-            .addGroup(layout.createSequentialGroup()
-                .addGap(143, 143, 143)
-                .addComponent(jButton_Save)
-                .addGap(41, 41, 41)
-                .addComponent(jButton_Update)
-                .addGap(48, 48, 48)
-                .addComponent(jButton_Delete)
-                .addGap(47, 47, 47)
-                .addComponent(jButton_Clear, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 72, Short.MAX_VALUE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addComponent(jLabel11)
+                                .addGap(29, 29, 29)
+                                .addComponent(jTextField_Search, javax.swing.GroupLayout.PREFERRED_SIZE, 236, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(229, 229, 229))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 593, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(75, 75, 75))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addComponent(jButton_Show, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(335, 335, 335))))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(42, 42, 42)
+                        .addComponent(jButton_Delete, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(45, 45, 45)
+                        .addComponent(jButton_Clear, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jButton_Prescription, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(140, 140, 140))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(16, 16, 16)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextField_Id, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel3))
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
+                        .addGap(16, 16, 16)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jTextField_Id, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel3))
+                        .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jTextField_Name, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel2))
@@ -340,26 +402,28 @@ public class Prescriptions extends javax.swing.JInternalFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel4)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(27, 27, 27)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jDateChooser, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel10))
+                        .addGap(70, 70, 70)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jButton_Save)
+                            .addComponent(jButton_Update)
+                            .addComponent(jButton_Delete)
+                            .addComponent(jButton_Clear, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jButton_Prescription, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(layout.createSequentialGroup()
+                        .addGap(51, 51, 51)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jTextField_Search, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(34, 34, 34)
                         .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 259, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jButton_Show)))
-                .addGap(15, 15, 15)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1)
-                    .addComponent(jTextField_Dfee, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(21, 21, 21)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel10)
-                    .addComponent(jDateChooser, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(48, 48, 48)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton_Save)
-                    .addComponent(jButton_Update)
-                    .addComponent(jButton_Delete)
-                    .addComponent(jButton_Clear, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(75, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jButton_Show, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(79, Short.MAX_VALUE))
         );
 
         pack();
@@ -392,10 +456,10 @@ public class Prescriptions extends javax.swing.JInternalFrame {
         jTextField_Age.setText(jTable_DoctorPres.getValueAt(row,4).toString());
         jTextField_Disease.setText(jTable_DoctorPres.getValueAt(row,5).toString());
         jTextArea_Prescription.setText(jTable_DoctorPres.getValueAt(row,6).toString());
-        jTextField_Dfee.setText(jTable_DoctorPres.getValueAt(row,7).toString());
+        //jTextField_Dfee.setText(jTable_DoctorPres.getValueAt(row,7).toString());
         try {
             //int srow = jTable_Doctor.getSelectedRow();
-            Date date = new SimpleDateFormat("yyyy-MM-dd").parse((String) jTable_DoctorPres.getValueAt(row, 8));
+            Date date = new SimpleDateFormat("yyyy-MM-dd").parse((String) jTable_DoctorPres.getValueAt(row, 7));
             jDateChooser.setDate(date);
         } catch (Exception e) {
             System.out.println(e);
@@ -417,9 +481,12 @@ public class Prescriptions extends javax.swing.JInternalFrame {
             JOptionPane.showMessageDialog(null,"Please clear all fields first");
             return;
         }
+        System.out.println(jTextField_Name.getText());
+        String disease = jTextField_Disease.getText().trim();
+        String prescription = jTextArea_Prescription.getText().trim();
         jRadioButton_Male.setActionCommand("Male");
         jRadioButton_Female.setActionCommand("Female");
-        String gender = buttonGroup1.getSelection().getActionCommand();
+        String gender = "";
         if(jRadioButton_Male.isSelected()){
             gender="Male";
         }
@@ -428,13 +495,37 @@ public class Prescriptions extends javax.swing.JInternalFrame {
         }
          
         String pdate = ((JTextField) jDateChooser.getDateEditor().getUiComponent()).getText().trim();
-        String disease = jTextField_Disease.getText().trim();
-        String prescription = jTextArea_Prescription.getText().trim();
-        String doctorFee = jTextField_Dfee.getText().trim();
+        Date currentDate=new Date();
+        //System.out.println(currentDate);
+        SimpleDateFormat dateFormat=new SimpleDateFormat("yyyy-MM-dd");
+        String date = dateFormat.format(currentDate);
 
-        if(disease.equals("") || prescription.equals("") || gender.equals("") || pdate.equals("")|| doctorFee.equals("")){
+        //String doctorFee = jTextField_Dfee.getText().trim();
+        
+        try{
+            System.out.println("Nullpointer handling"); 
+        }catch(NullPointerException e){
+            JOptionPane.showMessageDialog(null,"One or more fields are empty");
+        }
+        finally{
+        if(jTextField_Name.getText().equals("") || jTextField_Contact.getText().equals("")
+                || gender.equals("") || jTextField_Age.getText().equals("")
+                || disease.equals("") || prescription.equals("")  || pdate.equals("")){
 
             JOptionPane.showMessageDialog(null,"One or more fields are empty");
+        }
+        
+        else if(!Pattern.matches("[9]{1}+[8]{1}+[0-9]+$",jTextField_Contact.getText())){
+            JOptionPane.showMessageDialog(null,"Number must start with 98");
+        }
+         
+        else if((pdate.compareTo(date)<0)){
+            
+            JOptionPane.showMessageDialog(null,"Date is old");
+        }    
+        
+        else if((pdate.compareTo(date)>1)){
+            JOptionPane.showMessageDialog(null,"Date is new");
         }
 
         else{
@@ -446,15 +537,15 @@ public class Prescriptions extends javax.swing.JInternalFrame {
             ob.setAge(jTextField_Age.getText().trim());
             ob.setDisease(disease);
             ob.setPrescription(prescription);
-            ob.setDoctorfee(doctorFee);
-            ob.setPrescriptiondate(pdate);
-            
-           // ob.setAdminid(cuid);
+            //ob.setAppid(appid);
+            ob.setPrescriptiondate(pdate);            
+            ob.setAdminid(dappid);
             //Hand over this model object to controller class
             PrescriptionsFormDAO pDAO = new PrescriptionsFormDAO();
             pDAO.saveData(ob);
             loadData();
             clear();
+        }
         }
     }//GEN-LAST:event_jButton_SaveActionPerformed
 
@@ -473,7 +564,7 @@ public class Prescriptions extends javax.swing.JInternalFrame {
         String age = jTextField_Age.getText();
         String disease = jTextField_Disease.getText();
         String prescription = jTextArea_Prescription.getText();
-        String doctorfee = jTextField_Dfee.getText();
+        //String doctorfee = jTextField_Dfee.getText();
         String pdate = ((JTextField) jDateChooser.getDateEditor().getUiComponent()).getText();
 
         PrescriptionsForm ob = new PrescriptionsForm();
@@ -484,7 +575,7 @@ public class Prescriptions extends javax.swing.JInternalFrame {
         ob.setAge(age);
         ob.setDisease(disease);
         ob.setPrescription(prescription);
-        ob.setDoctorfee(doctorfee);
+        //ob.setDoctorfee(doctorfee);
         ob.setPrescriptiondate(pdate);
 
         PrescriptionsFormDAO pDAO = new PrescriptionsFormDAO();
@@ -544,7 +635,7 @@ public class Prescriptions extends javax.swing.JInternalFrame {
         //check for number 0 to 9
         if (evt.getKeyChar() >= '0' && evt.getKeyChar() <= '9') {
             //check for length not more than 2 digit
-            if (length < 2) {
+            if (length < 3) {
                 jTextField_Age.setEditable(true);
             } else {
                 jTextField_Age.setEditable(false);
@@ -559,17 +650,58 @@ public class Prescriptions extends javax.swing.JInternalFrame {
         }
     }//GEN-LAST:event_jTextField_AgeKeyPressed
 
+    private void jTextField_SearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField_SearchActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextField_SearchActionPerformed
+
+    private void jTextField_SearchKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField_SearchKeyReleased
+        // TODO add your handling code here:
+        DefaultTableModel table = (DefaultTableModel) jTable_DoctorPres.getModel();
+        String search = jTextField_Search.getText();
+        TableRowSorter<DefaultTableModel> tr = new TableRowSorter<DefaultTableModel>(table);
+        jTable_DoctorPres.setRowSorter(tr);
+        tr.setRowFilter(RowFilter.regexFilter(search));
+    }//GEN-LAST:event_jTextField_SearchKeyReleased
+
+    private void jButton_PrescriptionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_PrescriptionActionPerformed
+        // TODO add your handling code here:
+        if(jTextField_Id.getText().equals("")){
+            JOptionPane.showMessageDialog(null,"Please select one record for prescription");
+            return;
+        }
+        Report.pres_id=Integer.parseInt(jTextField_Id.getText());
+        Report r= new Report();
+        r.setVisible(true);
+    }//GEN-LAST:event_jButton_PrescriptionActionPerformed
+
+    private void jTextField_NameKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField_NameKeyTyped
+        // TODO add your handling code here:
+        char c=evt.getKeyChar();
+        if(!(Character.isAlphabetic(c)) || (c==KeyEvent.VK_PERIOD) || (c==KeyEvent.VK_BACK_SPACE)){
+            evt.consume();
+        }
+    }//GEN-LAST:event_jTextField_NameKeyTyped
+
+    private void jTextField_DiseaseKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField_DiseaseKeyTyped
+        // TODO add your handling code here:    
+        char c=evt.getKeyChar();
+        if(!(Character.isAlphabetic(c)) || (c==KeyEvent.VK_PERIOD) || (c==KeyEvent.VK_BACK_SPACE)){
+            evt.consume();
+        }
+    }//GEN-LAST:event_jTextField_DiseaseKeyTyped
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JButton jButton_Clear;
     private javax.swing.JButton jButton_Delete;
+    private javax.swing.JButton jButton_Prescription;
     private javax.swing.JButton jButton_Save;
     private javax.swing.JButton jButton_Show;
     private javax.swing.JButton jButton_Update;
     private com.toedter.calendar.JDateChooser jDateChooser;
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -587,9 +719,9 @@ public class Prescriptions extends javax.swing.JInternalFrame {
     private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField jTextField_Age;
     private javax.swing.JTextField jTextField_Contact;
-    private javax.swing.JTextField jTextField_Dfee;
     private javax.swing.JTextField jTextField_Disease;
     private javax.swing.JTextField jTextField_Id;
     private javax.swing.JTextField jTextField_Name;
+    private javax.swing.JTextField jTextField_Search;
     // End of variables declaration//GEN-END:variables
 }

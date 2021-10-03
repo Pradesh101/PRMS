@@ -68,6 +68,7 @@ public class AdminMainFrame extends javax.swing.JFrame {
         jPanel1.setLayout(null);
 
         jLabel2.setIcon(new javax.swing.ImageIcon("C:\\Users\\acer\\OneDrive\\Documents\\NetBeansProjects\\Java Project Picture\\RECETIONISTDETAILS.png")); // NOI18N
+        jLabel2.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
         jPanel1.add(jLabel2);
         jLabel2.setBounds(320, 50, 150, 160);
 
@@ -84,8 +85,9 @@ public class AdminMainFrame extends javax.swing.JFrame {
 
         jLabel4.setBackground(new java.awt.Color(0, 0, 0));
         jLabel4.setIcon(new javax.swing.ImageIcon("C:\\Users\\acer\\OneDrive\\Documents\\NetBeansProjects\\Java Project Picture\\EMPLOYEESDETAILS.png")); // NOI18N
+        jLabel4.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
         jPanel1.add(jLabel4);
-        jLabel4.setBounds(330, 330, 150, 140);
+        jLabel4.setBounds(330, 330, 140, 140);
 
         jLabel_Receptionist.setFont(new java.awt.Font("Times New Roman", 1, 24)); // NOI18N
         jLabel_Receptionist.setText("Receptionist");
@@ -99,15 +101,17 @@ public class AdminMainFrame extends javax.swing.JFrame {
         jLabel_Receptionist.setBounds(330, 220, 130, 30);
 
         jLabel6.setIcon(new javax.swing.ImageIcon("C:\\Users\\acer\\OneDrive\\Documents\\NetBeansProjects\\Java Project Picture\\patientdetals.png")); // NOI18N
+        jLabel6.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
         jPanel1.add(jLabel6);
-        jLabel6.setBounds(680, 70, 150, 140);
+        jLabel6.setBounds(680, 60, 150, 150);
 
         jLabel7.setIcon(new javax.swing.ImageIcon("C:\\Users\\acer\\OneDrive\\Documents\\NetBeansProjects\\Java Project Picture\\checkup.png")); // NOI18N
+        jLabel7.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
         jLabel7.setMaximumSize(new java.awt.Dimension(150, 150));
         jLabel7.setMinimumSize(new java.awt.Dimension(150, 150));
         jLabel7.setPreferredSize(new java.awt.Dimension(150, 150));
         jPanel1.add(jLabel7);
-        jLabel7.setBounds(690, 340, 150, 120);
+        jLabel7.setBounds(690, 330, 150, 130);
 
         jLabel_Patient.setFont(new java.awt.Font("Times New Roman", 1, 24)); // NOI18N
         jLabel_Patient.setText("Patient");
@@ -154,6 +158,7 @@ public class AdminMainFrame extends javax.swing.JFrame {
         jLabel_Logout.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
         jLabel_Logout.setIcon(new javax.swing.ImageIcon("C:\\Users\\acer\\OneDrive\\Documents\\NetBeansProjects\\Java Project Picture\\LOGOUT (2).png")); // NOI18N
         jLabel_Logout.setText("Logout");
+        jLabel_Logout.setBorder(new javax.swing.border.MatteBorder(null));
         jLabel_Logout.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jLabel_Logout.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {

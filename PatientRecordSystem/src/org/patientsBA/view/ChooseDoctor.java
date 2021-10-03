@@ -86,6 +86,7 @@ public class ChooseDoctor extends javax.swing.JInternalFrame {
         });
         jScrollPane1.setViewportView(jTable_DP);
 
+        dSearchbox.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         dSearchbox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Select Doctor-Type", "General Physician", "Gynecologist", "Surgeon", "Cardiologist", "Nephrologist", "Neurologist" }));
         dSearchbox.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -93,10 +94,12 @@ public class ChooseDoctor extends javax.swing.JInternalFrame {
             }
         });
 
-        jLabel1.setFont(new java.awt.Font("Tahoma", 0, 36)); // NOI18N
+        jLabel1.setFont(new java.awt.Font("Tahoma", 1, 36)); // NOI18N
         jLabel1.setText("Doctor Type");
 
+        jButton_Search.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jButton_Search.setText("Search");
+        jButton_Search.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
         jButton_Search.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jButton_SearchMouseClicked(evt);
@@ -108,17 +111,19 @@ public class ChooseDoctor extends javax.swing.JInternalFrame {
             }
         });
 
+        jButton_Next.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jButton_Next.setText("Next");
+        jButton_Next.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
         jButton_Next.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton_NextActionPerformed(evt);
             }
         });
 
-        jLabel2.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        jLabel2.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jLabel2.setText("Select a doctor and click next");
 
-        jLabel_Back.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        jLabel_Back.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jLabel_Back.setText("Back");
         jLabel_Back.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jLabel_Back.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -132,10 +137,6 @@ public class ChooseDoctor extends javax.swing.JInternalFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jScrollPane1)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jButton_Next)
-                .addGap(480, 480, 480))
             .addGroup(layout.createSequentialGroup()
                 .addGap(29, 29, 29)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -143,12 +144,16 @@ public class ChooseDoctor extends javax.swing.JInternalFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel_Back)
                         .addGap(40, 40, 40)
-                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 205, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(27, 27, 27)
-                        .addComponent(dSearchbox, javax.swing.GroupLayout.PREFERRED_SIZE, 468, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(41, 41, 41)
+                        .addComponent(dSearchbox, javax.swing.GroupLayout.PREFERRED_SIZE, 439, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(38, 38, 38)
-                        .addComponent(jButton_Search)))
-                .addContainerGap(88, Short.MAX_VALUE))
+                        .addComponent(jButton_Search, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(91, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jButton_Next, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(461, 461, 461))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -164,7 +169,7 @@ public class ChooseDoctor extends javax.swing.JInternalFrame {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel1)
                             .addComponent(jLabel_Back))))
-                .addGap(18, 43, Short.MAX_VALUE)
+                .addGap(18, 47, Short.MAX_VALUE)
                 .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 237, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -208,6 +213,9 @@ public class ChooseDoctor extends javax.swing.JInternalFrame {
                 columnData[8] = rs.getString("doctortype");
                 columnData[9] = rs.getString("username");
                 defaultTableModel.addRow(columnData);
+            }
+            if(searchKey.equals("Select Doctor-Type")){
+                JOptionPane.showMessageDialog(null, "Please select doctor!!!");
             }
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, e);

@@ -19,7 +19,9 @@ public class PatientFormDAO {
          public void saveData(PatientForm ob){
         try{
             Connection con=myConnection.getConnection();
-            String sql="insert into patient(name,address,gender,age,contact,marital,registerdate)values(?,?,?,?,?,?,?)";
+            String sql;
+            if(ob.getAdminid()!=0){
+            sql="insert into patient(name,address,gender,age,contact,marital,registerdate,adminid)values(?,?,?,?,?,?,?,?)";
             PreparedStatement st=con.prepareStatement(sql);
             st.setString(1,ob.getName());
             st.setString(2,ob.getAddress());
@@ -28,8 +30,7 @@ public class PatientFormDAO {
             st.setString(5,ob.getContact());
             st.setString(6,ob.getMarital());
             st.setString(7,ob.getRegisterdate());
-//            st.setString(8,ob.getDisease());
-//            st.setInt(9,ob.getUserid());
+            st.setInt(8,ob.getAdminid());
             int count=st.executeUpdate();
             if(count>0){
                 //System.out.println("Record Saved");
@@ -39,6 +40,28 @@ public class PatientFormDAO {
                 System.out.println("Record not saved");
             }
             con.close();
+            }
+            else{
+            sql="insert into patient(name,address,gender,age,contact,marital,registerdate,recepid)values(?,?,?,?,?,?,?,?)";
+            PreparedStatement st=con.prepareStatement(sql);
+            st.setString(1,ob.getName());
+            st.setString(2,ob.getAddress());
+            st.setString(3,ob.getGender());
+            st.setString(4,ob.getAge());
+            st.setString(5,ob.getContact());
+            st.setString(6,ob.getMarital());
+            st.setString(7,ob.getRegisterdate());
+            st.setInt(8,ob.getRecpid());
+            int count=st.executeUpdate();
+            if(count>0){
+                //System.out.println("Record Saved");
+                 JOptionPane.showMessageDialog(null,"Record Saved Successfully");
+            }
+            else{
+                System.out.println("Record not saved");
+            }
+            con.close();
+        }
         }
         catch(Exception e){
             e.printStackTrace();

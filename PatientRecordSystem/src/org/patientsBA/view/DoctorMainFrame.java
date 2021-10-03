@@ -80,6 +80,7 @@ public class DoctorMainFrame extends javax.swing.JFrame {
         jLabel_Logout.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
         jLabel_Logout.setIcon(new javax.swing.ImageIcon("C:\\Users\\acer\\OneDrive\\Documents\\NetBeansProjects\\Java Project Picture\\LOGOUT (2).png")); // NOI18N
         jLabel_Logout.setText("Logout");
+        jLabel_Logout.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         jLabel_Logout.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jLabel_Logout.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -89,38 +90,41 @@ public class DoctorMainFrame extends javax.swing.JFrame {
         jPanel2.add(jLabel_Logout);
         jLabel_Logout.setBounds(1110, 50, 80, 30);
 
-        jButton_Appointment.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        jButton_Appointment.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jButton_Appointment.setIcon(new javax.swing.ImageIcon("C:\\Users\\acer\\OneDrive\\Documents\\NetBeansProjects\\Java Project Picture\\appointmentig.png")); // NOI18N
         jButton_Appointment.setText("Appointments");
+        jButton_Appointment.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
         jButton_Appointment.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton_AppointmentActionPerformed(evt);
             }
         });
         jPanel2.add(jButton_Appointment);
-        jButton_Appointment.setBounds(200, 150, 200, 80);
+        jButton_Appointment.setBounds(200, 150, 230, 80);
 
-        jButton_MyDetails.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        jButton_MyDetails.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jButton_MyDetails.setIcon(new javax.swing.ImageIcon("C:\\Users\\acer\\OneDrive\\Documents\\NetBeansProjects\\Java Project Picture\\viewuser.png")); // NOI18N
         jButton_MyDetails.setText("My Details");
+        jButton_MyDetails.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
         jButton_MyDetails.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton_MyDetailsActionPerformed(evt);
             }
         });
         jPanel2.add(jButton_MyDetails);
-        jButton_MyDetails.setBounds(200, 270, 200, 80);
+        jButton_MyDetails.setBounds(200, 270, 230, 80);
 
-        jButton_Updateinfo.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        jButton_Updateinfo.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jButton_Updateinfo.setIcon(new javax.swing.ImageIcon("C:\\Users\\acer\\OneDrive\\Documents\\NetBeansProjects\\Java Project Picture\\updateuser (2).png")); // NOI18N
         jButton_Updateinfo.setText("Update Info");
+        jButton_Updateinfo.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
         jButton_Updateinfo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton_UpdateinfoActionPerformed(evt);
             }
         });
         jPanel2.add(jButton_Updateinfo);
-        jButton_Updateinfo.setBounds(200, 390, 200, 80);
+        jButton_Updateinfo.setBounds(200, 390, 230, 80);
 
         jLabel2.setIcon(new javax.swing.ImageIcon("C:\\Users\\acer\\OneDrive\\Documents\\NetBeansProjects\\Java Project Picture\\drportal.jpg")); // NOI18N
         jPanel2.add(jLabel2);

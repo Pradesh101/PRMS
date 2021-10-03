@@ -52,6 +52,8 @@ public class ReceptionistUpdate extends javax.swing.JInternalFrame {
         setResizable(true);
         setTitle("Receptionist Update");
 
+        jPasswordField_Pass.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+
         jCheckBoxShowPass.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jCheckBoxShowPass.setText("Show");
         jCheckBoxShowPass.setAlignmentX(0.5F);
@@ -61,14 +63,16 @@ public class ReceptionistUpdate extends javax.swing.JInternalFrame {
             }
         });
 
-        jLabel1.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
+        jLabel1.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
         jLabel1.setText("Update your Username and Password");
 
-        jLabel2.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        jLabel2.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jLabel2.setText("Username:");
 
-        jLabel3.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        jLabel3.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jLabel3.setText("Password:");
+
+        jTextField_Username.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
         jButton_OK.setBackground(new java.awt.Color(0, 153, 0));
         jButton_OK.setForeground(new java.awt.Color(240, 240, 240));
@@ -112,7 +116,7 @@ public class ReceptionistUpdate extends javax.swing.JInternalFrame {
                                     .addComponent(jTextField_Username, javax.swing.GroupLayout.Alignment.LEADING))
                                 .addGap(18, 18, 18)
                                 .addComponent(jCheckBoxShowPass)))))
-                .addContainerGap(33, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -132,7 +136,7 @@ public class ReceptionistUpdate extends javax.swing.JInternalFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton_OK)
                     .addComponent(jButton_Cancel))
-                .addContainerGap(43, Short.MAX_VALUE))
+                .addContainerGap(45, Short.MAX_VALUE))
         );
 
         pack();
@@ -157,6 +161,10 @@ public class ReceptionistUpdate extends javax.swing.JInternalFrame {
             //System.out.println(did);
             String uname=jTextField_Username.getText();
             String password = String.valueOf(jPasswordField_Pass.getPassword());
+            if(uname.equals("") || password.equals("")){
+                JOptionPane.showMessageDialog(null,"One or more fields are empty");
+            }
+            else{
             String sql="update receptionist set username=?, password=?  where id='"+rid+"'";
             ps = con.prepareStatement(sql);
             ps.setString(1,uname);
@@ -169,7 +177,7 @@ public class ReceptionistUpdate extends javax.swing.JInternalFrame {
             //jDesktopPane1.add(dlf);
             rlf.pack();
             rlf.setVisible(true);
-
+            }
         }
         catch(Exception ex){
             System.out.println("Update error");

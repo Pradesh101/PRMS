@@ -63,67 +63,67 @@ public class DoctorDetails extends javax.swing.JInternalFrame {
         setMaximizable(true);
         setResizable(true);
 
-        jLabel_Id.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        jLabel_Id.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jLabel_Id.setText("1");
 
-        jLabel_dName.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        jLabel_dName.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jLabel_dName.setText("Ram");
 
-        jLabel_Address.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        jLabel_Address.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jLabel_Address.setText("Inacho-07");
 
-        jLabel_Gender.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        jLabel_Gender.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jLabel_Gender.setText("Female");
 
-        jLabel10.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        jLabel10.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jLabel10.setText("Age:");
 
-        jLabel11.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        jLabel11.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jLabel11.setText("Contact:");
 
-        jLabel_Age.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        jLabel_Age.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jLabel_Age.setText("11");
 
-        jLabel2.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        jLabel2.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jLabel2.setText("Doctor Id:");
 
-        jLabel_Contact.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        jLabel_Contact.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jLabel_Contact.setText("9860465034");
 
-        jLabel3.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        jLabel3.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jLabel3.setText("Doctor Name:");
 
-        jLabel4.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        jLabel4.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jLabel4.setText("Address:");
 
-        jLabel5.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        jLabel5.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jLabel5.setText("Gender:");
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
         jLabel1.setText("Doctor Details");
 
-        jLabel6.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        jLabel6.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jLabel6.setText("Marital:");
 
-        jLabel_Marital.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        jLabel_Marital.setText("9860465034");
+        jLabel_Marital.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        jLabel_Marital.setText("Unmarried");
 
-        jLabel15.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        jLabel15.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jLabel15.setText("Joining Date:");
 
-        jLabel_Jdate.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        jLabel_Jdate.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jLabel_Jdate.setText("2077-01-02");
 
-        jLabel17.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        jLabel17.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jLabel17.setText("Doctor Type:");
 
-        jLabel_Dtype.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        jLabel_Dtype.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jLabel_Dtype.setText("PPPPPPPPPPPPPPPPPPP");
 
-        jLabel19.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        jLabel19.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jLabel19.setText("Username:");
 
-        jLabel_Username.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        jLabel_Username.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jLabel_Username.setText("ksksaskdask");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -146,12 +146,13 @@ public class DoctorDetails extends javax.swing.JInternalFrame {
                         .addComponent(jLabel4, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addComponent(jLabel6)
                     .addComponent(jLabel15)
-                    .addComponent(jLabel17)
-                    .addComponent(jLabel19, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                        .addComponent(jLabel19, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jLabel17, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addGap(52, 52, 52)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel_dName, javax.swing.GroupLayout.DEFAULT_SIZE, 253, Short.MAX_VALUE)
+                        .addComponent(jLabel_dName, javax.swing.GroupLayout.DEFAULT_SIZE, 236, Short.MAX_VALUE)
                         .addGap(462, 462, 462))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
@@ -162,11 +163,11 @@ public class DoctorDetails extends javax.swing.JInternalFrame {
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel_Gender, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel_Age, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel_Address, javax.swing.GroupLayout.PREFERRED_SIZE, 174, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel_Contact)
-                            .addComponent(jLabel_Id))
+                            .addComponent(jLabel_Id)
+                            .addComponent(jLabel_Gender))
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
         layout.setVerticalGroup(
@@ -214,7 +215,7 @@ public class DoctorDetails extends javax.swing.JInternalFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel19)
                     .addComponent(jLabel_Username))
-                .addContainerGap(73, Short.MAX_VALUE))
+                .addContainerGap(77, Short.MAX_VALUE))
         );
 
         pack();

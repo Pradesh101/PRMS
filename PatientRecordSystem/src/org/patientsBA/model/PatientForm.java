@@ -15,7 +15,8 @@ public class PatientForm {
     private String marital;
     private String registerdate;
     //private String disease;
-//    private int userid;
+    private int adminid;
+    private int recpid;
     
     public void setId(int id) {
         this.id = id;
@@ -49,13 +50,15 @@ public class PatientForm {
         this.registerdate = rdate;
     }
     
-//    public void setDisease(String disease) {
-//        this.disease = disease;
-//    }
+        public void setAdminid(int adminid) {
+        this.adminid = adminid;
+    }
     
-//    public void setUserid(int userid) {
-//        this.userid = userid;
-//    }
+    public void setRecpid(int recpid) {
+        this.recpid = recpid;
+    }
+    
+
         
     public int getId() {
         return id;
@@ -89,12 +92,12 @@ public class PatientForm {
         return registerdate;
     }
     
-//    public String getDisease() {
-//        return disease;
-//    }
+    public int getAdminid() {
+        return adminid;
+    }
     
-//    public int getUserid() {
-//        return userid;
-//    }
+    public int getRecpid() {
+        return recpid;
+    }
     
 }

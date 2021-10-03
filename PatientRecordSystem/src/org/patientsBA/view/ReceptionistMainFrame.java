@@ -89,20 +89,22 @@ public class ReceptionistMainFrame extends javax.swing.JFrame {
         jPanel1.add(jLabel12);
         jLabel12.setBounds(960, 130, 130, 28);
 
-        jButton_Appointment.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        jButton_Appointment.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jButton_Appointment.setIcon(new javax.swing.ImageIcon("C:\\Users\\acer\\OneDrive\\Documents\\NetBeansProjects\\Java Project Picture\\appointmentig.png")); // NOI18N
         jButton_Appointment.setText("Set Appointments");
+        jButton_Appointment.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
         jButton_Appointment.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton_AppointmentActionPerformed(evt);
             }
         });
         jPanel1.add(jButton_Appointment);
-        jButton_Appointment.setBounds(200, 110, 225, 80);
+        jButton_Appointment.setBounds(200, 110, 220, 80);
 
-        jButton_MyDetails.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        jButton_MyDetails.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jButton_MyDetails.setIcon(new javax.swing.ImageIcon("C:\\Users\\acer\\OneDrive\\Documents\\NetBeansProjects\\Java Project Picture\\viewuser.png")); // NOI18N
         jButton_MyDetails.setText("  My Details");
+        jButton_MyDetails.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
         jButton_MyDetails.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton_MyDetailsActionPerformed(evt);
@@ -111,9 +113,10 @@ public class ReceptionistMainFrame extends javax.swing.JFrame {
         jPanel1.add(jButton_MyDetails);
         jButton_MyDetails.setBounds(200, 470, 220, 80);
 
-        jButton_Updateinfo.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        jButton_Updateinfo.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jButton_Updateinfo.setIcon(new javax.swing.ImageIcon("C:\\Users\\acer\\OneDrive\\Documents\\NetBeansProjects\\Java Project Picture\\updateuser (2).png")); // NOI18N
         jButton_Updateinfo.setText("  Update Info");
+        jButton_Updateinfo.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
         jButton_Updateinfo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton_UpdateinfoActionPerformed(evt);
@@ -122,9 +125,10 @@ public class ReceptionistMainFrame extends javax.swing.JFrame {
         jPanel1.add(jButton_Updateinfo);
         jButton_Updateinfo.setBounds(200, 350, 220, 80);
 
-        jButton_Patient.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        jButton_Patient.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jButton_Patient.setIcon(new javax.swing.ImageIcon("C:\\Users\\acer\\OneDrive\\Documents\\NetBeansProjects\\Java Project Picture\\add (5).png")); // NOI18N
         jButton_Patient.setText("   Patient");
+        jButton_Patient.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
         jButton_Patient.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton_PatientActionPerformed(evt);
@@ -234,6 +238,7 @@ public class ReceptionistMainFrame extends javax.swing.JFrame {
     private void jButton_PatientActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_PatientActionPerformed
         // TODO add your handling code here:
         PatientFormFrame pf= new PatientFormFrame();
+        pf.curecpid=repId;
         jDesktopPane1.add(pf);
         pf.setVisible(true);
     }//GEN-LAST:event_jButton_PatientActionPerformed

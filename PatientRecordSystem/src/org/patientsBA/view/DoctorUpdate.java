@@ -54,14 +54,16 @@ public class DoctorUpdate extends javax.swing.JInternalFrame {
         setMaximizable(true);
         setResizable(true);
 
-        jLabel1.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
+        jLabel1.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
         jLabel1.setText("Update your Username and Password");
 
-        jLabel2.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        jLabel2.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jLabel2.setText("Username:");
 
-        jLabel3.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        jLabel3.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jLabel3.setText("Password:");
+
+        jTextField_Username.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
         jButton_OK.setBackground(new java.awt.Color(0, 153, 0));
         jButton_OK.setForeground(new java.awt.Color(240, 240, 240));
@@ -81,9 +83,12 @@ public class DoctorUpdate extends javax.swing.JInternalFrame {
             }
         });
 
+        jPasswordField_Pass.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+
         jCheckBoxShowPass.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jCheckBoxShowPass.setText("Show");
         jCheckBoxShowPass.setAlignmentX(0.5F);
+        jCheckBoxShowPass.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         jCheckBoxShowPass.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jCheckBoxShowPassActionPerformed(evt);
@@ -114,7 +119,7 @@ public class DoctorUpdate extends javax.swing.JInternalFrame {
                                     .addComponent(jTextField_Username, javax.swing.GroupLayout.Alignment.LEADING))
                                 .addGap(18, 18, 18)
                                 .addComponent(jCheckBoxShowPass)))))
-                .addContainerGap(27, Short.MAX_VALUE))
+                .addContainerGap(26, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -134,7 +139,7 @@ public class DoctorUpdate extends javax.swing.JInternalFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton_OK)
                     .addComponent(jButton_Cancel))
-                .addContainerGap(42, Short.MAX_VALUE))
+                .addContainerGap(44, Short.MAX_VALUE))
         );
 
         pack();
@@ -154,6 +159,9 @@ public class DoctorUpdate extends javax.swing.JInternalFrame {
             //System.out.println(did);
             String uname=jTextField_Username.getText();
             String password = String.valueOf(jPasswordField_Pass.getPassword());
+            if(uname.equals("") || password.equals("")){
+                JOptionPane.showMessageDialog(null,"One or more fileds are empty");
+            }else{
             String sql="update doctor set username=?, password=?  where id='"+did+"'";
             ps = con.prepareStatement(sql);
             ps.setString(1,uname);
@@ -166,7 +174,7 @@ public class DoctorUpdate extends javax.swing.JInternalFrame {
             //jDesktopPane1.add(dlf);
             dlf.pack();
             dlf.setVisible(true);
-            
+            }
         }
         catch(Exception ex){
             System.out.println("Update error");

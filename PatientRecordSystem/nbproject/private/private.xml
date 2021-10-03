@@ -13,9 +13,8 @@
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
             <file>file:/C:/Users/acer/OneDrive/Documents/NetBeansProjects/PatientRecordSystem/src/org/patientsBA/view/DoctorFormFrame.java</file>
-            <file>file:/C:/Users/acer/OneDrive/Documents/NetBeansProjects/PatientRecordSystem/src/org/patientsBA/model/PrescriptionsForm.java</file>
-            <file>file:/C:/Users/acer/OneDrive/Documents/NetBeansProjects/PatientRecordSystem/src/org/patientsBA/view/Prescriptions.java</file>
-            <file>file:/C:/Users/acer/OneDrive/Documents/NetBeansProjects/PatientRecordSystem/src/org/patientsBA/controller/PrescriptionsFormDAO.java</file>
+            <file>file:/C:/Users/acer/OneDrive/Documents/NetBeansProjects/PatientRecordSystem/src/org/patientsBA/view/AdminMainFrame.java</file>
+            <file>file:/C:/Users/acer/OneDrive/Documents/NetBeansProjects/PatientRecordSystem/src/org/patientsBA/view/PatientFormFrame.java</file>
         </group>
     </open-files>
 </project-private>

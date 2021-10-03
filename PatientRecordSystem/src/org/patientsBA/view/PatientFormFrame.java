@@ -6,9 +6,17 @@
 package org.patientsBA.view;
 
 import java.awt.event.KeyEvent;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import java.util.regex.Pattern;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.RowFilter;
@@ -18,6 +26,7 @@ import org.patientsBA.controller.PatientFormDAO;
 import org.patientsBA.controller.ReceptionistFormDAO;
 import org.patientsBA.model.PatientForm;
 import org.patientsBA.model.ReceptionistForm;
+import org.patientsBA.util.myConnection;
 import static org.patientsBA.view.ReceptionistFormFrame.currentUserId;
 
 /**
@@ -27,6 +36,7 @@ import static org.patientsBA.view.ReceptionistFormFrame.currentUserId;
 public class PatientFormFrame extends javax.swing.JInternalFrame {
 
     public static int currentuserid;
+    public static int curecpid;
     DefaultTableModel model;
     /**
     /**
@@ -36,6 +46,8 @@ public class PatientFormFrame extends javax.swing.JInternalFrame {
         initComponents();
         model = new DefaultTableModel(null, new String[]{"Id","Name","Address","Gender","Age","Contact","Marital","Registerdate"});
         jTable_Patient.setModel(model);
+        jTextField_Id.setVisible(false);
+        jLabel_Id.setVisible(false);
     }
 
         public void loadData(){
@@ -77,7 +89,7 @@ public class PatientFormFrame extends javax.swing.JInternalFrame {
 
         genderbuttonGroup = new javax.swing.ButtonGroup();
         maritalbuttonGroup = new javax.swing.ButtonGroup();
-        jLabel3 = new javax.swing.JLabel();
+        jLabel_Id = new javax.swing.JLabel();
         jTextField_Id = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
         jTextField_Name = new javax.swing.JTextField();
@@ -103,6 +115,7 @@ public class PatientFormFrame extends javax.swing.JInternalFrame {
         jRadioButton_Unmarried = new javax.swing.JRadioButton();
         jDateChooser = new com.toedter.calendar.JDateChooser();
         jButton_Clear = new javax.swing.JButton();
+        jLabel4 = new javax.swing.JLabel();
 
         setClosable(true);
         setIconifiable(true);
@@ -110,7 +123,8 @@ public class PatientFormFrame extends javax.swing.JInternalFrame {
         setResizable(true);
         setTitle("Patient Form");
 
-        jLabel3.setText("Id");
+        jLabel_Id.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLabel_Id.setText("Id");
 
         jTextField_Id.setEditable(false);
         jTextField_Id.addActionListener(new java.awt.event.ActionListener() {
@@ -119,6 +133,7 @@ public class PatientFormFrame extends javax.swing.JInternalFrame {
             }
         });
 
+        jLabel2.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel2.setText("Name");
 
         jTextField_Name.addActionListener(new java.awt.event.ActionListener() {
@@ -126,7 +141,13 @@ public class PatientFormFrame extends javax.swing.JInternalFrame {
                 jTextField_NameActionPerformed(evt);
             }
         });
+        jTextField_Name.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                jTextField_NameKeyTyped(evt);
+            }
+        });
 
+        jLabel7.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel7.setText("Address");
 
         jTextField_Address.addActionListener(new java.awt.event.ActionListener() {
@@ -134,10 +155,17 @@ public class PatientFormFrame extends javax.swing.JInternalFrame {
                 jTextField_AddressActionPerformed(evt);
             }
         });
+        jTextField_Address.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                jTextField_AddressKeyTyped(evt);
+            }
+        });
 
+        jLabel1.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel1.setText("Gender");
 
         genderbuttonGroup.add(jRadioButton_Male);
+        jRadioButton_Male.setFont(new java.awt.Font("Tahoma", 1, 13)); // NOI18N
         jRadioButton_Male.setText("Male");
         jRadioButton_Male.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -146,6 +174,7 @@ public class PatientFormFrame extends javax.swing.JInternalFrame {
         });
 
         genderbuttonGroup.add(jRadioButton_Female);
+        jRadioButton_Female.setFont(new java.awt.Font("Tahoma", 1, 13)); // NOI18N
         jRadioButton_Female.setText("Female");
         jRadioButton_Female.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -153,6 +182,7 @@ public class PatientFormFrame extends javax.swing.JInternalFrame {
             }
         });
 
+        jLabel8.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel8.setText("Age");
 
         jTextField_Age.addKeyListener(new java.awt.event.KeyAdapter() {
@@ -161,6 +191,7 @@ public class PatientFormFrame extends javax.swing.JInternalFrame {
             }
         });
 
+        jLabel5.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel5.setText("Contact");
 
         jTextField_Contact.addActionListener(new java.awt.event.ActionListener() {
@@ -174,32 +205,40 @@ public class PatientFormFrame extends javax.swing.JInternalFrame {
             }
         });
 
+        jLabel10.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel10.setText("Marital Status");
 
+        jButton_Save.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jButton_Save.setIcon(new javax.swing.ImageIcon("C:\\Users\\acer\\OneDrive\\Documents\\NetBeansProjects\\Java Project Picture\\adduser.png")); // NOI18N
         jButton_Save.setText("Save");
+        jButton_Save.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
         jButton_Save.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton_SaveActionPerformed(evt);
             }
         });
 
+        jButton_Update.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jButton_Update.setIcon(new javax.swing.ImageIcon("C:\\Users\\acer\\OneDrive\\Documents\\NetBeansProjects\\Java Project Picture\\UPDATESMALL.png")); // NOI18N
         jButton_Update.setText("Update");
+        jButton_Update.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
         jButton_Update.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton_UpdateActionPerformed(evt);
             }
         });
 
+        jButton_Delete.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jButton_Delete.setIcon(new javax.swing.ImageIcon("C:\\Users\\acer\\OneDrive\\Documents\\NetBeansProjects\\Java Project Picture\\DELETESMALL.png")); // NOI18N
         jButton_Delete.setText("Delete");
+        jButton_Delete.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
         jButton_Delete.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton_DeleteActionPerformed(evt);
             }
         });
 
+        jTable_Patient.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         jTable_Patient.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
         jTable_Patient.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -216,15 +255,19 @@ public class PatientFormFrame extends javax.swing.JInternalFrame {
         });
         jScrollPane2.setViewportView(jTable_Patient);
 
+        jButton_Show.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jButton_Show.setText("Show");
+        jButton_Show.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
         jButton_Show.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton_ShowActionPerformed(evt);
             }
         });
 
+        jLabel9.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel9.setText("Register Date");
 
+        jTextField_Search.setBorder(null);
         jTextField_Search.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jTextField_SearchActionPerformed(evt);
@@ -237,6 +280,7 @@ public class PatientFormFrame extends javax.swing.JInternalFrame {
         });
 
         maritalbuttonGroup.add(jRadioButton_Married);
+        jRadioButton_Married.setFont(new java.awt.Font("Tahoma", 1, 13)); // NOI18N
         jRadioButton_Married.setText("Married");
         jRadioButton_Married.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -245,6 +289,7 @@ public class PatientFormFrame extends javax.swing.JInternalFrame {
         });
 
         maritalbuttonGroup.add(jRadioButton_Unmarried);
+        jRadioButton_Unmarried.setFont(new java.awt.Font("Tahoma", 1, 13)); // NOI18N
         jRadioButton_Unmarried.setText("Unmarried");
         jRadioButton_Unmarried.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -254,12 +299,17 @@ public class PatientFormFrame extends javax.swing.JInternalFrame {
 
         jDateChooser.setDateFormatString("yyyy-MM-d");
 
+        jButton_Clear.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jButton_Clear.setText("Clear");
+        jButton_Clear.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
         jButton_Clear.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton_ClearActionPerformed(evt);
             }
         });
+
+        jLabel4.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLabel4.setText("Search");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -276,17 +326,17 @@ public class PatientFormFrame extends javax.swing.JInternalFrame {
                         .addComponent(jLabel10, javax.swing.GroupLayout.Alignment.TRAILING)
                         .addComponent(jLabel9, javax.swing.GroupLayout.Alignment.TRAILING))
                     .addComponent(jLabel2)
-                    .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jLabel_Id, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(54, 54, 54)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jButton_Save)
+                        .addComponent(jButton_Save, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(51, 51, 51)
-                        .addComponent(jButton_Update)
-                        .addGap(51, 51, 51)
-                        .addComponent(jButton_Delete)
-                        .addGap(48, 48, 48)
-                        .addComponent(jButton_Clear))
+                        .addComponent(jButton_Update, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(52, 52, 52)
+                        .addComponent(jButton_Delete, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(56, 56, 56)
+                        .addComponent(jButton_Clear, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jDateChooser, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -295,7 +345,7 @@ public class PatientFormFrame extends javax.swing.JInternalFrame {
                                 .addGap(18, 18, 18)
                                 .addComponent(jRadioButton_Unmarried)))
                         .addGap(406, 406, 406)
-                        .addComponent(jButton_Show))
+                        .addComponent(jButton_Show, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jTextField_Address, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -307,15 +357,16 @@ public class PatientFormFrame extends javax.swing.JInternalFrame {
                                 .addGap(18, 18, 18)
                                 .addComponent(jRadioButton_Female))
                             .addComponent(jTextField_Id, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(87, 87, 87)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
-                                .addGap(288, 288, 288)
-                                .addComponent(jTextField_Search, javax.swing.GroupLayout.PREFERRED_SIZE, 228, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(113, 113, 113)
+                                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 719, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(layout.createSequentialGroup()
-                                .addGap(26, 26, 26)
-                                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 719, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                .addContainerGap(72, Short.MAX_VALUE))
+                                .addGap(377, 377, 377)
+                                .addComponent(jLabel4)
+                                .addGap(18, 18, 18)
+                                .addComponent(jTextField_Search, javax.swing.GroupLayout.PREFERRED_SIZE, 167, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                .addContainerGap(50, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -324,11 +375,13 @@ public class PatientFormFrame extends javax.swing.JInternalFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addGap(53, 53, 53)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jTextField_Search, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(jTextField_Search, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jLabel4))
                             .addComponent(jTextField_Id, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addContainerGap()
-                        .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(jLabel_Id, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(layout.createSequentialGroup()
@@ -355,25 +408,25 @@ public class PatientFormFrame extends javax.swing.JInternalFrame {
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(28, 28, 28)
-                        .addComponent(jButton_Show))
-                    .addGroup(layout.createSequentialGroup()
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jRadioButton_Unmarried, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jRadioButton_Married, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jLabel9, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jDateChooser, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                            .addComponent(jRadioButton_Married, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(28, 28, 28)
+                        .addComponent(jButton_Show, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jLabel9, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jDateChooser, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(60, 60, 60)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton_Save)
                     .addComponent(jButton_Update)
                     .addComponent(jButton_Delete)
                     .addComponent(jButton_Clear, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(41, Short.MAX_VALUE))
+                .addContainerGap(51, Short.MAX_VALUE))
         );
 
         pack();
@@ -426,11 +479,66 @@ public class PatientFormFrame extends javax.swing.JInternalFrame {
              marital="Unmarried";
         }
         String rdate=((JTextField)jDateChooser.getDateEditor().getUiComponent()).getText().trim();
+        Date currentDate=new Date();
+        SimpleDateFormat dateFormat=new SimpleDateFormat("yyyy-MM-dd");
+        String date = dateFormat.format(currentDate);
         //String disease=jTextArea_Disease.getText().trim();
+        
+        try{
+            boolean flag = false;
+            Set <String> pNumber = new HashSet <String>();
+            Connection con=myConnection.getConnection();
+            PreparedStatement ps = null;
+            ResultSet rs = null;
+            String queryTwo = "select contact from patient";
+            ps = con.prepareStatement(queryTwo);
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                pNumber.add(rs.getString("contact"));
+                //System.out.println(rs.getString(1));
+            }
+            //System.out.println(pNumber.size());
+            for (int i = 0; i < pNumber.size(); i++) {
+                if (pNumber.contains(contact)) {
+                    JOptionPane.showMessageDialog(null,"Contact is already registered");
+                    //System.out.println("Already number registered");
+                    //pNumber.remove(phoneNumber);
+                    //System.out.println(pNumber);
+                    flag = true;
+                    return;
+                }
+            }
+              if (pNumber.equals(contact)) {
+                JOptionPane.showMessageDialog(null,"Contact is already registered");
+                //System.out.println("Already number registered");
+                return;
+            }
+        }
+        catch(Exception e){
+            JOptionPane.showMessageDialog(null,"Contact is already registered");
+            try {
+                throw e;
+            } catch (Exception ex) {
+                Logger.getLogger(PatientFormFrame.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
        
         if(name.equals("") || address.equals("") || gender.equals("") || age.equals("") || contact.equals("") || marital.equals("") || rdate.equals("")){
       
         JOptionPane.showMessageDialog(null,"One or more fields are empty");
+        }
+        
+        else if(!Pattern.matches("[9]{1}+[8]{1}+[0-9]+$",contact)){
+            JOptionPane.showMessageDialog(null,"Number must start with 98");
+        }
+        
+        else if((rdate.compareTo(date)<0)){
+            
+            JOptionPane.showMessageDialog(null,"Date is old");
+        }    
+        
+        else if((rdate.compareTo(date)>1)){
+            JOptionPane.showMessageDialog(null,"Date is new");
         }
         
         else{
@@ -443,8 +551,8 @@ public class PatientFormFrame extends javax.swing.JInternalFrame {
         ob.setContact(contact);
         ob.setMarital(marital);
         ob.setRegisterdate(rdate);
-        //ob.setDisease(disease);
-//        ob.setUserid(currentuserid);
+        ob.setAdminid(currentuserid); 
+        ob.setRecpid(curecpid);
         //Hand over this model object to controller class
         PatientFormDAO pDAO=new PatientFormDAO();
         pDAO.saveData(ob);
@@ -636,6 +744,22 @@ public class PatientFormFrame extends javax.swing.JInternalFrame {
         clear();
     }//GEN-LAST:event_jButton_ClearActionPerformed
 
+    private void jTextField_NameKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField_NameKeyTyped
+        // TODO add your handling code here:
+        char c=evt.getKeyChar();
+        if(!(Character.isAlphabetic(c)) || (c==KeyEvent.VK_PERIOD) || (c==KeyEvent.VK_BACK_SPACE)){
+            evt.consume();
+        }
+    }//GEN-LAST:event_jTextField_NameKeyTyped
+
+    private void jTextField_AddressKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField_AddressKeyTyped
+        // TODO add your handling code here:
+        char c=evt.getKeyChar();
+        if(!(Character.isAlphabetic(c) || (c==KeyEvent.VK_PERIOD) || (c==KeyEvent.VK_BACK_SPACE) || Character.isDigit(c))){
+            evt.consume();
+        }
+    }//GEN-LAST:event_jTextField_AddressKeyTyped
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.ButtonGroup genderbuttonGroup;
@@ -648,11 +772,12 @@ public class PatientFormFrame extends javax.swing.JInternalFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
+    private javax.swing.JLabel jLabel_Id;
     private javax.swing.JRadioButton jRadioButton_Female;
     private javax.swing.JRadioButton jRadioButton_Male;
     private javax.swing.JRadioButton jRadioButton_Married;
