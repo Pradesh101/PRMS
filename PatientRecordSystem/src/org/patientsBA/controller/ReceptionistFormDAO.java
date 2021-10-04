@@ -100,6 +100,7 @@ public class ReceptionistFormDAO {
             st.setInt(10,ob.getId());
             st.execute();
             con.close();
+            JOptionPane.showMessageDialog(null,"Record Update Sucessfully!!!");
         }
         catch(Exception e){
             e.printStackTrace();

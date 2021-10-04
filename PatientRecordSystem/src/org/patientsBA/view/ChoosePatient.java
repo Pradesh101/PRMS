@@ -7,6 +7,7 @@ package org.patientsBA.view;
 
 import static com.sun.org.apache.xalan.internal.xsltc.compiler.util.Type.Int;
 import java.awt.HeadlessException;
+import java.awt.event.KeyEvent;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -140,11 +141,16 @@ public class ChoosePatient extends javax.swing.JInternalFrame {
         jLabel3.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jLabel3.setText("Time");
 
-        jDateChooser.setDateFormatString("yyyy-MM-d");
+        jDateChooser.setDateFormatString("yyyy-MM-dd");
 
         jTextField_Time.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jTextField_TimeActionPerformed(evt);
+            }
+        });
+        jTextField_Time.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                jTextField_TimeKeyTyped(evt);
             }
         });
 
@@ -175,6 +181,14 @@ public class ChoosePatient extends javax.swing.JInternalFrame {
         jTextField_Fee.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jTextField_FeeActionPerformed(evt);
+            }
+        });
+        jTextField_Fee.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jTextField_FeeKeyPressed(evt);
+            }
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                jTextField_FeeKeyTyped(evt);
             }
         });
 
@@ -326,6 +340,7 @@ public class ChoosePatient extends javax.swing.JInternalFrame {
             JOptionPane.showMessageDialog(null,"One or more fields are empty !!!!!");
             return;
         }
+
         try{
             Integer.parseInt(jTextField_Fee.getText());
             }
@@ -348,7 +363,16 @@ public class ChoosePatient extends javax.swing.JInternalFrame {
 //        jRadioButton_On.setActionCommand("On");
 //        jRadioButton_Off.setActionCommand("Off");
 //        String status = buttonGroup1.getSelection().getActionCommand();
-       if(fee!=0){
+
+        if((rdate.compareTo(date)<0)){
+            JOptionPane.showMessageDialog(null,"Your date is not valid!!!");
+        }    
+        
+        else if((rdate.compareTo(date)>0)){
+            JOptionPane.showMessageDialog(null,"Your date is not valid!!!");
+        }
+
+        else if(fee!=0){
            System.out.println("Fee is not empty");
        try{
             boolean flag = false;
@@ -357,13 +381,14 @@ public class ChoosePatient extends javax.swing.JInternalFrame {
             Connection con=myConnection.getConnection();
             PreparedStatement ps = null;
             ResultSet rs = null;
-            String queryTwo = "select status,d_id,p_id from appointment";
+            String queryTwo = "select status,time,d_id,p_id from appointment";
             ps = con.prepareStatement(queryTwo);
             rs = ps.executeQuery();
             while (rs.next()) {
                 String sta = rs.getString("status");
                 String d = rs.getString("d_id");
                 int p = rs.getInt("p_id");
+                String dbtime=rs.getString("time");
 //                System.out.println(rs.getString("status"));
 //                System.out.println(rs.getString("d_id"));
 //                System.out.println(rs.getString("p_id"));
@@ -378,6 +403,10 @@ public class ChoosePatient extends javax.swing.JInternalFrame {
                         return;
                     }
                     }
+                }
+                if(time.equals(dbtime)){
+                    JOptionPane.showMessageDialog(null,"Sorry!! This time slot is not available");
+                    return;
                 }
             }
             try {
@@ -429,6 +458,45 @@ public class ChoosePatient extends javax.swing.JInternalFrame {
     private void jTextField_FeeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField_FeeActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jTextField_FeeActionPerformed
+
+    private void jTextField_FeeKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField_FeeKeyTyped
+        // TODO add your handling code here:
+         char c=evt.getKeyChar();
+        if(!(Character.isAlphabetic(c) || (c==KeyEvent.VK_PERIOD) || (c==KeyEvent.VK_BACK_SPACE) || Character.isDigit(c))){
+            evt.consume();
+        }
+    }//GEN-LAST:event_jTextField_FeeKeyTyped
+
+    private void jTextField_TimeKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField_TimeKeyTyped
+        // TODO add your handling code here:
+         char c=evt.getKeyChar();
+        if(!(Character.isAlphabetic(c) || (c==KeyEvent.VK_PERIOD) || (c==KeyEvent.VK_BACK_SPACE) || Character.isDigit(c))){
+            evt.consume();
+        }
+    }//GEN-LAST:event_jTextField_TimeKeyTyped
+
+    private void jTextField_FeeKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField_FeeKeyPressed
+        // TODO add your handling code here:
+                String fee = jTextField_Fee.getText();
+        int length = fee.length();
+        char c = evt.getKeyChar();
+        //check for number 0 to 9
+        if (evt.getKeyChar() >= '0' && evt.getKeyChar() <= '9') {
+            //check for length not more than 2 digit
+            if (length < 5) {
+                jTextField_Fee.setEditable(true);
+            } else {
+                jTextField_Fee.setEditable(false);
+            }
+        } else {
+            //not allows key backsapce and delete for edit
+            if (evt.getExtendedKeyCode() == KeyEvent.VK_BACK_SPACE || evt.getExtendedKeyCode() == KeyEvent.VK_DELETE) {
+                jTextField_Fee.setEditable(true);
+            } else {
+                jTextField_Fee.setEditable(false);
+            }
+        }
+    }//GEN-LAST:event_jTextField_FeeKeyPressed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

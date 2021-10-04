@@ -322,7 +322,7 @@ public class ReceptionistFormFrame extends javax.swing.JInternalFrame {
             }
         });
 
-        jDateChooser.setDateFormatString("yyyy-MM-d");
+        jDateChooser.setDateFormatString("yyyy-MM-dd");
 
         jPasswordField.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -420,7 +420,7 @@ public class ReceptionistFormFrame extends javax.swing.JInternalFrame {
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(26, 26, 26)
+                .addContainerGap(26, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -442,9 +442,9 @@ public class ReceptionistFormFrame extends javax.swing.JInternalFrame {
                         .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jTextField_Search, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel11))
-                        .addGap(18, 18, 18)
+                            .addComponent(jTextField_Search, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(28, 28, 28)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jTextField_Address, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -484,7 +484,7 @@ public class ReceptionistFormFrame extends javax.swing.JInternalFrame {
                     .addComponent(jButton_Update)
                     .addComponent(jButton_Delete)
                     .addComponent(jButton_Clear, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(95, Short.MAX_VALUE))
+                .addGap(95, 95, 95))
         );
 
         pack();
@@ -538,17 +538,19 @@ public class ReceptionistFormFrame extends javax.swing.JInternalFrame {
              marital="Unmarried";
         }
         String jdate = ((JTextField) jDateChooser.getDateEditor().getUiComponent()).getText().trim();
+        System.out.println(jdate);
         Date currentDate=new Date();
         SimpleDateFormat dateFormat=new SimpleDateFormat("yyyy-MM-dd");
         String date = dateFormat.format(currentDate);
+        System.out.println(date);
         String username = jTextField_Username.getText().trim();
-        String pswd = String.valueOf(jPasswordField.getPassword()).trim();
-        String password = "";
-        try {
-            password = MysqlMd5.getRKmd5(pswd);
-        } catch (NoSuchAlgorithmException ex) {
-            Logger.getLogger(ReceptionistFormFrame.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        String password = String.valueOf(jPasswordField.getPassword()).trim();
+        //String password = "";
+//        try {
+//            password = MysqlMd5.getRKmd5(pswd);
+//        } catch (NoSuchAlgorithmException ex) {
+//            Logger.getLogger(ReceptionistFormFrame.class.getName()).log(Level.SEVERE, null, ex);
+//        }
         
         try{
             boolean flag = false;
@@ -589,23 +591,66 @@ public class ReceptionistFormFrame extends javax.swing.JInternalFrame {
             }
         }
         
+        try{
+            //boolean flag = false;
+            Set <String> uName = new HashSet <String>();
+            Connection con=myConnection.getConnection();
+            PreparedStatement ps = null;
+            ResultSet rs = null;
+            String queryTwo = "select username from receptionist";
+            ps = con.prepareStatement(queryTwo);
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                uName.add(rs.getString("username"));
+                //System.out.println(rs.getString(1));
+            }
+            //System.out.println(pNumber.size());
+            for (int i = 0; i < uName.size(); i++) {
+                if (uName.contains(username)) {
+                    JOptionPane.showMessageDialog(null,"Username is already used.");
+                    //System.out.println("Already number registered");
+                    //pNumber.remove(phoneNumber);
+                    //System.out.println(pNumber);
+                    //flag = true;
+                    return;
+                }
+            }
+              if (uName.equals(username)) {
+                JOptionPane.showMessageDialog(null,"Username is already used.");
+                //System.out.println("Already number registered");
+                return;
+            }
+        }
+        catch(Exception e){
+            JOptionPane.showMessageDialog(null,"Username is already used.");
+            try {
+                throw e;
+            } catch (Exception ex) {
+                Logger.getLogger(ReceptionistFormFrame.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        
         if(name.equals("") || address.equals("") || gender.equals("") || age.equals("") || contact.equals("") || marital.equals("") || jdate.equals("")
                 || username.equals("") || password.equals("")){
       
-        JOptionPane.showMessageDialog(null,"One or more fields are empty");
+        JOptionPane.showMessageDialog(null,"One or more fields are empty!!!");
         }
         
         else if(!Pattern.matches("[9]{1}+[8]{1}+[0-9]+$",contact)){
             JOptionPane.showMessageDialog(null,"Number must start with 98");
         }
         
+        else if(contact.length()!=10){
+            JOptionPane.showMessageDialog(null,"Contact number is improper");
+        }
+        
         else if((jdate.compareTo(date)<0)){
             
-            JOptionPane.showMessageDialog(null,"Date is old");
+            JOptionPane.showMessageDialog(null,"Your date is not valid!!!");
         }    
         
-        else if((jdate.compareTo(date)>1)){
-            JOptionPane.showMessageDialog(null,"Date is new");
+        else if((jdate.compareTo(date)>0)){
+            JOptionPane.showMessageDialog(null,"Your date is not valid!!!");
         }       
         
         else{
@@ -647,9 +692,122 @@ public class ReceptionistFormFrame extends javax.swing.JInternalFrame {
         jRadioButton_Unmarried.setActionCommand("Unmarried");
         String marital = maritalbuttonGroup.getSelection().getActionCommand();
         String jdate = ((JTextField) jDateChooser.getDateEditor().getUiComponent()).getText();
+        Date currentDate=new Date();
+        SimpleDateFormat dateFormat=new SimpleDateFormat("yyyy-MM-dd");
+        String date = dateFormat.format(currentDate);
+        System.out.println(date);
         String username = jTextField_Username.getText();
         String password = String.valueOf(jPasswordField.getPassword());
 
+        try{
+            boolean flag = false;
+            Set <String> pNumber = new HashSet <String>();
+            Connection con=myConnection.getConnection();
+            PreparedStatement ps = null;
+            ResultSet rs = null;
+            String queryTwo = "select id, contact from receptionist";
+            ps = con.prepareStatement(queryTwo);
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                int dbid=rs.getInt("id");
+                System.out.println(dbid);
+                if(id!=dbid){
+                pNumber.add(rs.getString("contact"));
+                System.out.println(rs.getString("contact"));
+            }
+            }
+            System.out.println(pNumber.size());
+            for (int i = 0; i < pNumber.size(); i++) {
+                if (pNumber.contains(contact)) {
+                    JOptionPane.showMessageDialog(null,"Contact is already registered!!!");
+                    //System.out.println("Already number registered");
+                    //pNumber.remove(phoneNumber);
+                    System.out.println(pNumber);
+                    flag = true;
+                    return;
+                }
+            }
+              if (pNumber.equals(contact)) {
+                JOptionPane.showMessageDialog(null,"Contact is already registered!!!");
+                //System.out.println("Already number registered");
+                return;
+            }
+        }
+        catch(Exception e){
+            JOptionPane.showMessageDialog(null,"Contact is already registered!!!");
+            try {
+                throw e;
+            } catch (Exception ex) {
+                Logger.getLogger(ReceptionistFormFrame.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        
+        try{
+            //boolean flag = false;
+            Set <String> uName = new HashSet <String>();
+            Connection con=myConnection.getConnection();
+            PreparedStatement ps = null;
+            ResultSet rs = null;
+            String queryTwo = "select id, username from receptionist";
+            ps = con.prepareStatement(queryTwo);
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                int dbid=rs.getInt("id");
+                if(id!=dbid){
+                uName.add(rs.getString("username"));
+                System.out.println(rs.getString("username"));
+            }
+            }
+            //System.out.println(pNumber.size());
+            for (int i = 0; i < uName.size(); i++) {
+                if (uName.contains(username)) {
+                    JOptionPane.showMessageDialog(null,"Username is already used!!!");
+                    //System.out.println("Already number registered");
+                    //pNumber.remove(phoneNumber);
+                    System.out.println(uName);
+                    //flag = true;
+                    return;
+                }
+            }
+              if (uName.equals(username)) {
+                JOptionPane.showMessageDialog(null,"Username is already used!!!");
+                //System.out.println("Already number registered");
+                return;
+            }
+        }
+        catch(Exception e){
+            JOptionPane.showMessageDialog(null,"Username is already used!!!");
+            try {
+                throw e;
+            } catch (Exception ex) {
+                Logger.getLogger(ReceptionistFormFrame.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        
+        if(name.equals("") || address.equals("") || gender.equals("") || age.equals("") || contact.equals("") || marital.equals("") || jdate.equals("")
+                || username.equals("") || password.equals("")){
+      
+        JOptionPane.showMessageDialog(null,"One or more fields are empty!!!");
+        }
+        
+        else if(!Pattern.matches("[9]{1}+[8]{1}+[0-9]+$",contact)){
+            JOptionPane.showMessageDialog(null,"Number must start with 98!!!");
+        }
+        
+        else if(contact.length()!=10){
+            JOptionPane.showMessageDialog(null,"Contact number is improper");
+        }
+        
+        else if((jdate.compareTo(date)<0)){
+            
+            JOptionPane.showMessageDialog(null,"Your date is not valid!!!");
+        }    
+        
+        else if((jdate.compareTo(date)>0)){
+            JOptionPane.showMessageDialog(null,"Your date is not valid!!!");
+        }
+        
+        else{
         ReceptionistForm ob = new ReceptionistForm();
         ob.setId(id);
         ob.setName(name);
@@ -667,12 +825,13 @@ public class ReceptionistFormFrame extends javax.swing.JInternalFrame {
         rDAO.updateRecord(ob);
         loadData();
         clear();
+        }
     }//GEN-LAST:event_jButton_UpdateActionPerformed
 
     private void jButton_DeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_DeleteActionPerformed
         // TODO add your handling code here:
         if(jTextField_Id.getText().equals("")){
-            JOptionPane.showMessageDialog(null,"Please select one record for delete");
+            JOptionPane.showMessageDialog(null,"Please select one record for delete!!!");
             return;
         }
         int id = Integer.parseInt(jTextField_Id.getText());

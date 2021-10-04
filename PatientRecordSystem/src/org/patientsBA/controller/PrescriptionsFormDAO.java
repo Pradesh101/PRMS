@@ -94,6 +94,7 @@ public class PrescriptionsFormDAO {
             st.setInt(8,ob.getId());
             st.execute();
             con.close();
+            JOptionPane.showMessageDialog(null,"Record Update Sucessfully!!!");
         }
         catch(Exception e){
             e.printStackTrace();

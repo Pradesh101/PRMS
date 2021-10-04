@@ -449,7 +449,7 @@
     </Component>
     <Component class="com.toedter.calendar.JDateChooser" name="jDateChooser">
       <Properties>
-        <Property name="dateFormatString" type="java.lang.String" value="yyyy-MM-d"/>
+        <Property name="dateFormatString" type="java.lang.String" value="yyyy-MM-dd"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JButton" name="jButton_Clear">

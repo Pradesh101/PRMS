@@ -186,6 +186,7 @@
     <Component class="javax.swing.JTextField" name="jTextField_Time">
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jTextField_TimeActionPerformed"/>
+        <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="jTextField_TimeKeyTyped"/>
       </Events>
     </Component>
     <Component class="javax.swing.JRadioButton" name="jRadioButton_On">
@@ -259,6 +260,9 @@
     <Component class="javax.swing.JTextField" name="jTextField_Id">
     </Component>
     <Component class="javax.swing.JTextField" name="jTextField_D">
+      <Events>
+        <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="jTextField_DKeyTyped"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel2">
       <Properties>
@@ -279,6 +283,7 @@
     <Component class="javax.swing.JTextField" name="jTextField_P">
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jTextField_PActionPerformed"/>
+        <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="jTextField_PKeyTyped"/>
       </Events>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel4">
@@ -418,6 +423,9 @@
       </Properties>
     </Component>
     <Component class="javax.swing.JTextField" name="jTextField_Fee">
+      <Events>
+        <EventHandler event="keyPressed" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="jTextField_FeeKeyPressed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel10">
       <Properties>

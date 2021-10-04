@@ -249,7 +249,7 @@ public class DoctorFormFrame extends javax.swing.JInternalFrame {
         jLabel9.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel9.setText("Joining Date");
 
-        jDateChooser.setDateFormatString("yyyy-MM-d");
+        jDateChooser.setDateFormatString("yyyy-MM-dd");
 
         jLabel4.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel4.setText("Doctor Type");
@@ -402,7 +402,9 @@ public class DoctorFormFrame extends javax.swing.JInternalFrame {
                                         .addGap(18, 18, 18)
                                         .addComponent(jRadioButton_Unmarried)))
                                 .addGap(0, 0, Short.MAX_VALUE))
-                            .addComponent(jTextField_Username))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jTextField_Username)
+                                .addGap(94, 94, 94)))
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
                                 .addGap(434, 434, 434)
@@ -656,7 +658,7 @@ public class DoctorFormFrame extends javax.swing.JInternalFrame {
     private void jButton_SaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_SaveActionPerformed
         // TODO add your handling code here:
         if(jTextField_Id.getText().equals("")==false){
-            JOptionPane.showMessageDialog(null,"Please clear all fields first");
+            JOptionPane.showMessageDialog(null,"Please clear all fields first!!!");
             return;
         }
         String name = jTextField_Name.getText().trim();
@@ -732,24 +734,67 @@ public class DoctorFormFrame extends javax.swing.JInternalFrame {
                 Logger.getLogger(DoctorFormFrame.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
+        
+        try{
+            //boolean flag = false;
+            Set <String> uName = new HashSet <String>();
+            Connection con=myConnection.getConnection();
+            PreparedStatement ps = null;
+            ResultSet rs = null;
+            String queryTwo = "select username from doctor";
+            ps = con.prepareStatement(queryTwo);
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                uName.add(rs.getString("username"));
+                //System.out.println(rs.getString(1));
+            }
+            //System.out.println(pNumber.size());
+            for (int i = 0; i < uName.size(); i++) {
+                if (uName.contains(username)) {
+                    JOptionPane.showMessageDialog(null,"Username is already used!!!");
+                    //System.out.println("Already number registered");
+                    //pNumber.remove(phoneNumber);
+                    //System.out.println(pNumber);
+                    //flag = true;
+                    return;
+                }
+            }
+              if (uName.equals(username)) {
+                JOptionPane.showMessageDialog(null,"Username is already used!!!");
+                //System.out.println("Already number registered");
+                return;
+            }
+        }
+        catch(Exception e){
+            JOptionPane.showMessageDialog(null,"Username is already used!!!");
+            try {
+                throw e;
+            } catch (Exception ex) {
+                Logger.getLogger(ReceptionistFormFrame.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
 
         if(name.equals("") || address.equals("") || gender.equals("") || age.equals("") || contact.equals("") || marital.equals("") || jdate.equals("")
                 || dtype.equals("") || username.equals("") || password.equals("")){
       
-        JOptionPane.showMessageDialog(null,"One or more fields are empty");
+        JOptionPane.showMessageDialog(null,"One or more fields are empty!!!");
         }
         
         else if(!Pattern.matches("[9]{1}+[8]{1}+[0-9]+$",contact)){
             JOptionPane.showMessageDialog(null,"Number must start with 98");
         }
         
+        else if(contact.length()!=10){
+            JOptionPane.showMessageDialog(null,"Contact number is improper");
+        }
+        
         else if((jdate.compareTo(date)<0)){
             
-            JOptionPane.showMessageDialog(null,"Date is old");
+            JOptionPane.showMessageDialog(null,"Your date is not valid!!!");
         }    
         
-        else if((date.compareTo(date)>1)){
-            JOptionPane.showMessageDialog(null,"Date is new");
+        else if((date.compareTo(date)>0)){
+            JOptionPane.showMessageDialog(null,"Your date is not valid!!!");
         }
         
         else{
@@ -777,10 +822,11 @@ public class DoctorFormFrame extends javax.swing.JInternalFrame {
     private void jButton_UpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_UpdateActionPerformed
         // TODO add your handling code here:
         if(jTextField_Id.getText().equals("")){
-            JOptionPane.showMessageDialog(null,"Please select one record for update");
+            JOptionPane.showMessageDialog(null,"Please select one record for update!!!");
             return;
         }
         int id = Integer.parseInt(jTextField_Id.getText());
+        System.out.println(id);
         String name = jTextField_Name.getText();
         String address = jTextField_Address.getText();
         jRadioButton_Male.setActionCommand("Male");
@@ -792,10 +838,125 @@ public class DoctorFormFrame extends javax.swing.JInternalFrame {
         jRadioButton_Unmarried.setActionCommand("Unmarried");
         String marital = maritalbuttonGroup.getSelection().getActionCommand();
         String jdate = ((JTextField) jDateChooser.getDateEditor().getUiComponent()).getText();
+        Date currentDate=new Date();
+        //System.out.println(currentDate);
+        SimpleDateFormat dateFormat=new SimpleDateFormat("yyyy-MM-dd");
+        String date = dateFormat.format(currentDate);
+        //System.out.println(date);
         String dtype = jComboBox_Dtype.getSelectedItem().toString();
         String username = jTextField_Username.getText();
         String password = String.valueOf(jPasswordField.getPassword());
+        
+        try{
+            //boolean flag = false;
+            Set <String> pNumber = new HashSet <String>();
+            Connection con=myConnection.getConnection();
+            PreparedStatement ps = null;
+            ResultSet rs = null;
+            String queryTwo = "select id, contact from doctor";
+            ps = con.prepareStatement(queryTwo);
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                int dbid=rs.getInt("id");
+                System.out.println(dbid);
+                if(id!=dbid){
+                pNumber.add(rs.getString("contact"));
+                System.out.println(rs.getString("contact"));
+            }
+            }
+            System.out.println(pNumber.size());
+            for (int i = 0; i < pNumber.size(); i++) {
+                if (pNumber.contains(contact)) {
+                    JOptionPane.showMessageDialog(null,"Contact is already registered!!!");
+                    //System.out.println("Already number registered");
+                    //pNumber.remove(phoneNumber);
+                    System.out.println(pNumber);
+                    //flag = true;
+                    return;
+                }
+            }
+              if (pNumber.equals(contact)) {
+                JOptionPane.showMessageDialog(null,"Contact is already registered!!!");
+                //System.out.println("Already number registered");
+                return;
+            }
+        }
+        catch(Exception e){
+            JOptionPane.showMessageDialog(null,"Contact is already registered!!!");
+            try {
+                throw e;
+            } catch (Exception ex) {
+                Logger.getLogger(ReceptionistFormFrame.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        
+        try{
+            //boolean flag = false;
+            Set <String> uName = new HashSet <String>();
+            Connection con=myConnection.getConnection();
+            PreparedStatement ps = null;
+            ResultSet rs = null;
+            String queryTwo = "select id, username from doctor";
+            ps = con.prepareStatement(queryTwo);
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                int dbid=rs.getInt("id");
+                System.out.println(dbid);
+                if(id!=dbid){
+                uName.add(rs.getString("username"));
+                System.out.println(rs.getString("username"));
+            }
+            }
+            //System.out.println(pNumber.size());
+            for (int i = 0; i < uName.size(); i++) {
+                if (uName.contains(username)) {
+                    JOptionPane.showMessageDialog(null,"Username is already used!!!");
+                    //System.out.println("Already number registered");
+                    //pNumber.remove(phoneNumber);
+                    System.out.println(uName);
+                    //flag = true;
+                    return;
+                }
+            }
+              if (uName.equals(username)) {
+                JOptionPane.showMessageDialog(null,"Username is already used!!!");
+                //System.out.println("Already number registered");
+                return;
+            }
+        }
+        catch(Exception e){
+            JOptionPane.showMessageDialog(null,"Username is already used!!!");
+            try {
+                throw e;
+            } catch (Exception ex) {
+                Logger.getLogger(DoctorFormFrame.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
 
+        if(name.equals("") || address.equals("") || gender.equals("") || age.equals("") || contact.equals("") || marital.equals("") || jdate.equals("")
+                || dtype.equals("") || username.equals("") || password.equals("")){
+      
+        JOptionPane.showMessageDialog(null,"One or more fields are empty!!!");
+        }
+        
+        else if(!Pattern.matches("[9]{1}+[8]{1}+[0-9]+$",contact)){
+            JOptionPane.showMessageDialog(null,"Number must start with 98");
+        }
+        
+        else if(contact.length()!=10){
+            JOptionPane.showMessageDialog(null,"Contact number is improper");
+        }
+        
+        else if((jdate.compareTo(date)<0)){
+            
+            JOptionPane.showMessageDialog(null,"Your date is not valid!!!");
+        }    
+        
+        else if((jdate.compareTo(date)>0)){
+            JOptionPane.showMessageDialog(null,"Your date is not valid!!!");
+        }
+
+        else{
         DoctorForm ob = new DoctorForm();
         ob.setId(id);
         ob.setName(name);
@@ -814,6 +975,7 @@ public class DoctorFormFrame extends javax.swing.JInternalFrame {
         dDAO.updateRecord(ob);
         loadData();
         clear();
+        }
     }//GEN-LAST:event_jButton_UpdateActionPerformed
 
     private void jButton_DeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_DeleteActionPerformed

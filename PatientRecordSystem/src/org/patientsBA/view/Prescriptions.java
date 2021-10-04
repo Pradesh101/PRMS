@@ -244,7 +244,7 @@ public class Prescriptions extends javax.swing.JInternalFrame {
         jLabel10.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel10.setText("Prescription Date");
 
-        jDateChooser.setDateFormatString("yyyy-MM-d");
+        jDateChooser.setDateFormatString("yyyy-MM-dd");
 
         jButton_Save.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jButton_Save.setIcon(new javax.swing.ImageIcon("C:\\Users\\acer\\OneDrive\\Documents\\NetBeansProjects\\Java Project Picture\\adduser.png")); // NOI18N

@@ -297,7 +297,7 @@ public class PatientFormFrame extends javax.swing.JInternalFrame {
             }
         });
 
-        jDateChooser.setDateFormatString("yyyy-MM-d");
+        jDateChooser.setDateFormatString("yyyy-MM-dd");
 
         jButton_Clear.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jButton_Clear.setText("Clear");
@@ -532,12 +532,16 @@ public class PatientFormFrame extends javax.swing.JInternalFrame {
             JOptionPane.showMessageDialog(null,"Number must start with 98");
         }
         
+        else if(contact.length()!=10){
+            JOptionPane.showMessageDialog(null,"Contact number is improper");
+        }
+        
         else if((rdate.compareTo(date)<0)){
             
             JOptionPane.showMessageDialog(null,"Date is old");
         }    
         
-        else if((rdate.compareTo(date)>1)){
+        else if((rdate.compareTo(date)>0)){
             JOptionPane.showMessageDialog(null,"Date is new");
         }
         
@@ -579,8 +583,77 @@ public class PatientFormFrame extends javax.swing.JInternalFrame {
         jRadioButton_Unmarried.setActionCommand("Unmarried");
         String marital=maritalbuttonGroup.getSelection().getActionCommand();
         String rdate=((JTextField)jDateChooser.getDateEditor().getUiComponent()).getText();
+        Date currentDate=new Date();
+        SimpleDateFormat dateFormat=new SimpleDateFormat("yyyy-MM-dd");
+        String date = dateFormat.format(currentDate);
         //String disease=jTextArea_Disease.getText();
         
+        try{
+            //boolean flag = false;
+            Set <String> pNumber = new HashSet <String>();
+            Connection con=myConnection.getConnection();
+            PreparedStatement ps = null;
+            ResultSet rs = null;
+            String queryTwo = "select id, contact from patient";
+            ps = con.prepareStatement(queryTwo);
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                int dbid=rs.getInt("id");
+                System.out.println(dbid);
+                if(id!=dbid){
+                pNumber.add(rs.getString("contact"));
+                System.out.println(rs.getString("contact"));
+            }
+            }
+            System.out.println(pNumber.size());
+            for (int i = 0; i < pNumber.size(); i++) {
+                if (pNumber.contains(contact)) {
+                    JOptionPane.showMessageDialog(null,"Contact is already registered!!!");
+                    //System.out.println("Already number registered");
+                    pNumber.remove(contact);
+                    System.out.println(pNumber);
+                    //flag = true;
+                    return;
+                }
+            }
+              if (pNumber.equals(contact)) {
+                JOptionPane.showMessageDialog(null,"Contact is already registered!!!");
+                //System.out.println("Already number registered");
+                return;
+            }
+        }
+        catch(Exception e){
+            JOptionPane.showMessageDialog(null,"Contact is already registered!!!");
+            try {
+                throw e;
+            } catch (Exception ex) {
+                Logger.getLogger(ReceptionistFormFrame.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        
+        if(name.equals("") || address.equals("") || gender.equals("") || age.equals("") || 
+                contact.equals("") || marital.equals("") || rdate.equals("")
+                ){    
+        JOptionPane.showMessageDialog(null,"One or more fields are empty!!!");
+        }
+        
+        else if(!Pattern.matches("[9]{1}+[8]{1}+[0-9]+$",contact)){
+            JOptionPane.showMessageDialog(null,"Number must start with 98!!!");
+        }
+        
+        else if(contact.length()!=10){
+            JOptionPane.showMessageDialog(null,"Contact number is improper");
+        }
+        
+        else if((rdate.compareTo(date)<0)){
+            JOptionPane.showMessageDialog(null,"Your date is not valid!!!");
+        }    
+        
+        else if((rdate.compareTo(date)>0)){
+            JOptionPane.showMessageDialog(null,"Your date is not valid!!!");
+        }
+        
+        else{
         PatientForm ob=new PatientForm();
         ob.setId(id);
         ob.setName(name);
@@ -597,6 +670,7 @@ public class PatientFormFrame extends javax.swing.JInternalFrame {
         pDAO.updateRecord(ob);
         loadData();
         clear();
+        }
     }//GEN-LAST:event_jButton_UpdateActionPerformed
 
     private void jButton_DeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_DeleteActionPerformed

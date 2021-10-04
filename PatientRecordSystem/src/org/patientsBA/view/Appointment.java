@@ -5,6 +5,7 @@
  */
 package org.patientsBA.view;
 
+import java.awt.event.KeyEvent;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -117,6 +118,11 @@ public class Appointment extends javax.swing.JInternalFrame {
                 jTextField_TimeActionPerformed(evt);
             }
         });
+        jTextField_Time.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                jTextField_TimeKeyTyped(evt);
+            }
+        });
 
         buttonGroup1.add(jRadioButton_On);
         jRadioButton_On.setFont(new java.awt.Font("Tahoma", 1, 13)); // NOI18N
@@ -166,6 +172,12 @@ public class Appointment extends javax.swing.JInternalFrame {
         jLabel6.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jLabel6.setText("Id");
 
+        jTextField_D.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                jTextField_DKeyTyped(evt);
+            }
+        });
+
         jLabel2.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jLabel2.setText("Doctor Name");
 
@@ -175,6 +187,11 @@ public class Appointment extends javax.swing.JInternalFrame {
         jTextField_P.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jTextField_PActionPerformed(evt);
+            }
+        });
+        jTextField_P.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                jTextField_PKeyTyped(evt);
             }
         });
 
@@ -246,6 +263,12 @@ public class Appointment extends javax.swing.JInternalFrame {
 
         jLabel9.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jLabel9.setText("Fee");
+
+        jTextField_Fee.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jTextField_FeeKeyPressed(evt);
+            }
+        });
 
         jLabel10.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jLabel10.setText("Search");
@@ -626,6 +649,53 @@ public class Appointment extends javax.swing.JInternalFrame {
         jTable_App.setRowSorter(tr);
         tr.setRowFilter(RowFilter.regexFilter(search));
     }//GEN-LAST:event_jTextField_SearchKeyReleased
+
+    private void jTextField_FeeKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField_FeeKeyPressed
+        // TODO add your handling code here:
+        String age = jTextField_Fee.getText();
+        int length = age.length();
+        char c = evt.getKeyChar();
+        //check for number 0 to 9
+        if (evt.getKeyChar() >= '0' && evt.getKeyChar() <= '9') {
+            //check for length not more than 2 digit
+            if (length < 5) {
+                jTextField_Fee.setEditable(true);
+            } else {
+                jTextField_Fee.setEditable(false);
+            }
+        } else {
+            //not allows key backsapce and delete for edit
+            if (evt.getExtendedKeyCode() == KeyEvent.VK_BACK_SPACE || evt.getExtendedKeyCode() == KeyEvent.VK_DELETE) {
+                jTextField_Fee.setEditable(true);
+            } else {
+                jTextField_Fee.setEditable(false);
+            }
+        }
+    }//GEN-LAST:event_jTextField_FeeKeyPressed
+
+    private void jTextField_DKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField_DKeyTyped
+        // TODO add your handling code here:
+        char c=evt.getKeyChar();
+        if(!(Character.isAlphabetic(c)) || (c==KeyEvent.VK_PERIOD) || (c==KeyEvent.VK_BACK_SPACE)){
+            evt.consume();
+        }
+    }//GEN-LAST:event_jTextField_DKeyTyped
+
+    private void jTextField_PKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField_PKeyTyped
+        // TODO add your handling code here:
+        char c=evt.getKeyChar();
+        if(!(Character.isAlphabetic(c)) || (c==KeyEvent.VK_PERIOD) || (c==KeyEvent.VK_BACK_SPACE)){
+            evt.consume();
+        }
+    }//GEN-LAST:event_jTextField_PKeyTyped
+
+    private void jTextField_TimeKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField_TimeKeyTyped
+        // TODO add your handling code here:
+        char c=evt.getKeyChar();
+        if(!(Character.isAlphabetic(c) || (c==KeyEvent.VK_PERIOD) || (c==KeyEvent.VK_BACK_SPACE) || Character.isDigit(c))){
+            evt.consume();
+        }
+    }//GEN-LAST:event_jTextField_TimeKeyTyped
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
